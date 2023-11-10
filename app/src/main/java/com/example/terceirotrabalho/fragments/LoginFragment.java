@@ -31,4 +31,8 @@ public class LoginFragment extends Fragment {
     public void logIn(View v) {
 
     }
+
+    public void openSignUpFragment(View v) {
+        
+    }
 }
