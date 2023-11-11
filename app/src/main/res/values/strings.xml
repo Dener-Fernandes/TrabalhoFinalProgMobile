@@ -9,5 +9,7 @@
     <string name="CadastreSe">Cadastre-se</string>
     <string name="Cadastrar">CADASTRAR</string>
     <string name="Voltar">VOLTAR</string>
+    <string name="FazerLogin">Faça seu login</string>
+    <string name="FazerCadastro">Faça seu cadastro</string>
     <!-- Main (Login e Cadastro) -->
 </resources>
