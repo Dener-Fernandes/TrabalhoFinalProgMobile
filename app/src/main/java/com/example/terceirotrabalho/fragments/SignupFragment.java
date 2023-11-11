@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 import com.example.terceirotrabalho.R;
 
 
-public class LoginFragment extends Fragment {
+public class SignupFragment extends Fragment {
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,12 +24,9 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         return view;
     }
 
-    public void logIn(View v) {
-
-    }
 }
