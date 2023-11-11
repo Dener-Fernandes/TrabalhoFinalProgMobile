@@ -12,13 +12,19 @@
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="wrap_content"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="127dp"
             android:onClick="returnToLoginFragment"
-            android:text="Button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/Voltar"
+            tools:layout_editor_absoluteX="216dp"
+            tools:layout_editor_absoluteY="341dp" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:text="@string/Cadastrar"
+            tools:layout_editor_absoluteX="67dp"
+            tools:layout_editor_absoluteY="342dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

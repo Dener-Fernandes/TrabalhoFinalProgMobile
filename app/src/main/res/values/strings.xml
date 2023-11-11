@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">TerceiroTrabalho</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Main (Login e Cadastro) -->
+    <string name="DigitarEmail">Digite seu e-mail</string>
+    <string name="DigitarSenha">Digite sua senha</string>
+    <string name="DigitarNome">Digite seu nome</string>
     <string name="EntrarButton">ENTRAR</string>
     <string name="NãoPossuiConta">Não possui conta?</string>
     <string name="CadastreSe">Cadastre-se</string>
+    <string name="Cadastrar">CADASTRAR</string>
+    <string name="Voltar">VOLTAR</string>
+    <!-- Main (Login e Cadastro) -->
 </resources>
