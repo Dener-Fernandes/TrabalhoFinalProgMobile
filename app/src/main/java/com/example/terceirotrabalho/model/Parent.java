@@ -24,4 +24,12 @@ public class Parent {
     public Parent(int fkUserId) {
         this.fkUserId = fkUserId;
     }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public int getFkUserId() {
+        return fkUserId;
+    }
 }

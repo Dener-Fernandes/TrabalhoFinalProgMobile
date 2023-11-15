@@ -22,10 +22,38 @@ public class User {
     @ColumnInfo(name = "user_type")
     public String userType;
 
+    @ColumnInfo(name = "is_user_logged")
+    public boolean isUserLogged;
+
     public User(String userName, String userEmail, String userPassword, String userType) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userType = userType;
+        this.isUserLogged = false;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public boolean getIsUserLogged() {
+        return isUserLogged;
     }
 }

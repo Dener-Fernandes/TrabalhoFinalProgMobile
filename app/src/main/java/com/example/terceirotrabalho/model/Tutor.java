@@ -24,4 +24,12 @@ public class Tutor {
     public Tutor(int fkUserId) {
         this.fkUserId = fkUserId;
     }
+
+    public int getTutorId() {
+        return tutorId;
+    }
+
+    public int getFkUserId() {
+        return fkUserId;
+    }
 }
