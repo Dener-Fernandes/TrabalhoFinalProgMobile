@@ -13,17 +13,17 @@ import java.util.List;
 @Dao
 public interface ParentDao {
     @Insert
-    void insertParent(Parent parent);
+    public long insertParent(Parent parent);
 
     @Update
-    void updateParent(Parent parent);
+    public void updateParent(Parent parent);
 
     @Delete
-    void deleteParent(Parent parent);
+    public void deleteParent(Parent parent);
 
     @Query("SELECT * FROM parent INNER JOIN user ON :parentId = user.user_id")
-    Parent getParentById(int parentId);
+    public Parent getParentById(int parentId);
 
     @Query("SELECT * FROM parent")
-    List<Parent> getAllParents();
+    public List<Parent> getAllParents();
 }

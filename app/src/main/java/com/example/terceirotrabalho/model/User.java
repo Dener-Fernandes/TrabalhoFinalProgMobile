@@ -30,7 +30,7 @@ public class User {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userType = userType;
-        this.isUserLogged = false;
+        this.isUserLogged = true;
     }
 
     public int getUserId() {

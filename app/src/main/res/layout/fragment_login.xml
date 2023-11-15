@@ -12,7 +12,7 @@
 
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/userPasswordRegisterValue"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
@@ -31,7 +31,7 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/userPasswordRegisterValue" />
 
         <Button
             android:id="@+id/button"

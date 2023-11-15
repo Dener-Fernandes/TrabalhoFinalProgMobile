@@ -13,17 +13,17 @@ import java.util.List;
 @Dao
 public interface TutorDao {
     @Insert
-    void insertTutor(Tutor tutor);
+    public long insertTutor(Tutor tutor);
 
     @Update
-    void updateTutor(Tutor tutor);
+    public void updateTutor(Tutor tutor);
 
     @Delete
-    void deleteTutor(Tutor tutor);
+    public void deleteTutor(Tutor tutor);
 
     @Query("SELECT * FROM tutor INNER JOIN user ON :tutorId = user.user_id")
-    Tutor getTutorById(int tutorId);
+    public Tutor getTutorById(int tutorId);
 
     @Query("SELECT * FROM tutor")
-    List<Tutor> getAllTutors();
+    public List<Tutor> getAllTutors();
 }

@@ -13,18 +13,18 @@ import java.util.List;
 @Dao
 public interface UserDao {
     @Insert
-    void insertUser(User user);
+    public long insertUser(User user);
 
     @Update
-    void updateUser(User user);
+    public void updateUser(User user);
 
     @Delete
-    void deleteUser(User user);
+    public void deleteUser(User user);
 
     @Query("SELECT * FROM user WHERE user_id = :userId")
-    User getUserById(int userId);
+    public User getUserById(int userId);
 
     @Query("SELECT * FROM user")
-    List<User> getAllUsers();
+    public List<User> getAllUsers();
 }
 

@@ -12,5 +12,6 @@
     <string name="FazerLogin">Faça seu login</string>
     <string name="FazerCadastro">Faça seu cadastro</string>
     <string name="PreenchaTodosOsCampos">Preencha todos os campos</string>
+    <string name="EscolhaUmTipo">Escolha um tipo</string>
     <!-- Main (Login e Cadastro) -->
 </resources>

@@ -13,18 +13,18 @@ import java.util.List;
 @Dao
 public interface TeacherDao {
     @Insert
-    void insertTeacher(Teacher teacher);
+    public long insertTeacher(Teacher teacher);
 
     @Update
-    void updateTeacher(Teacher teacher);
+    public void updateTeacher(Teacher teacher);
 
     @Delete
-    void deleteTeacher(Teacher teacher);
+    public void deleteTeacher(Teacher teacher);
 
     @Query("SELECT * FROM teacher INNER JOIN user ON :teacherId = user.user_id")
-    Teacher getTeacherById(int teacherId);
+    public Teacher getTeacherById(int teacherId);
 
     @Query("SELECT * FROM teacher")
-    List<Teacher> getAllTeachers();
+    public List<Teacher> getAllTeachers();
 }
 

@@ -13,18 +13,18 @@ import java.util.List;
 @Dao
 public interface StudentDao {
     @Insert
-    void insertStudent(Student student);
+    public long insertStudent(Student student);
 
     @Update
-    void updateStudent(Student student);
+    public void updateStudent(Student student);
 
     @Delete
-    void deleteStudent(Student student);
+    public void deleteStudent(Student student);
 
     @Query("SELECT * FROM student INNER JOIN user ON :studentId = user.user_id")
-    Student getStudentById(int studentId);
+    public Student getStudentById(int studentId);
 
     @Query("SELECT * FROM student")
-    List<Student> getAllStudents();
+    public List<Student> getAllStudents();
 }
 

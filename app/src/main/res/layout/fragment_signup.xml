@@ -12,17 +12,17 @@
 
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/userPasswordRegisterValue"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:hint="@string/DigitarSenha"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+            app:layout_constraintTop_toBottomOf="@+id/userEmailRegisterValue" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/userNameRegisterValue"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
@@ -33,14 +33,14 @@
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/userEmailRegisterValue"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:hint="@string/DigitarEmail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText1" />
+            app:layout_constraintTop_toBottomOf="@+id/userNameRegisterValue" />
 
         <Button
             android:id="@+id/button2"
@@ -51,7 +51,7 @@
             android:onClick="returnToLoginFragment"
             android:text="@string/Voltar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/typesSpinner" />
 
         <Button
             android:id="@+id/button3"
@@ -59,20 +59,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
             android:layout_marginTop="32dp"
+            android:onClick="getRegisterValues"
             android:text="@string/Cadastrar"
             app:layout_constraintEnd_toStartOf="@+id/button2"
             app:layout_constraintHorizontal_bias="0.066"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/typesSpinner" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/typesSpinner"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="40dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/userPasswordRegisterValue" />
 
         <TextView
             android:id="@+id/textView6"
@@ -86,7 +88,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/errorTextFields"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -97,6 +99,19 @@
             app:layout_constraintHorizontal_bias="0.275"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/errorTextTypes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/EscolhaUmTipo"
+            android:visibility="gone"
+            android:textColor="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.212"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userPasswordRegisterValue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
