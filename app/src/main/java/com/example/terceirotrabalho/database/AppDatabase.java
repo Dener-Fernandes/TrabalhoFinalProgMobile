@@ -6,6 +6,11 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.terceirotrabalho.DAO.ParentDao;
+import com.example.terceirotrabalho.DAO.StudentDao;
+import com.example.terceirotrabalho.DAO.TeacherDao;
+import com.example.terceirotrabalho.DAO.TutorDao;
+import com.example.terceirotrabalho.DAO.UserDao;
 import com.example.terceirotrabalho.model.Parent;
 import com.example.terceirotrabalho.model.Student;
 import com.example.terceirotrabalho.model.Teacher;
@@ -25,4 +30,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
         return INSTANCE;
     }
+
+    public abstract UserDao userDao();
+    public abstract StudentDao studentDao();
+    public abstract TeacherDao teacherDao();
+    public abstract ParentDao parentDao();
+    public abstract TutorDao tutorDao();
 }
