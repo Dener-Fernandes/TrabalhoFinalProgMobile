@@ -56,4 +56,6 @@ public class User {
     public boolean getIsUserLogged() {
         return isUserLogged;
     }
+
+    public void setIsUserLogged(boolean isUserLogged) { this.isUserLogged = isUserLogged; }
 }
