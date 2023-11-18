@@ -4,11 +4,14 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
 
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
+import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 
 public class CryptographyUtils {
     private static final String ANDROID_KEYSTORE = "AndroidKeyStore";
@@ -44,15 +47,29 @@ public class CryptographyUtils {
             SecretKey secretKey = (SecretKey) keyStore.getKey(KEY_ALIAS, null);
 
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
 
+            // Recupera o IV dos primeiros 16 bytes do array cifrado
             byte[] encryptedBytes = Base64.decode(encryptedPassword, Base64.DEFAULT);
-            byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
 
-            return new String(decryptedBytes);
+            if (encryptedBytes.length < 16) {
+                // Verifica se há pelo menos 16 bytes para o IV
+                throw new IllegalArgumentException("Dados cifrados inválidos");
+            }
+
+            byte[] iv = Arrays.copyOfRange(encryptedBytes, 0, 16);
+
+            // Inicializa o Cipher com o IV
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+
+            // Descriptografa os bytes após o IV
+            byte[] decryptedBytes = cipher.doFinal(Arrays.copyOfRange(encryptedBytes, 16, encryptedBytes.length));
+
+            return new String(decryptedBytes, StandardCharsets.UTF_8);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
 }

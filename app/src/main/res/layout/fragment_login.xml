@@ -12,7 +12,7 @@
 
 
         <EditText
-            android:id="@+id/userPasswordRegisterValue"
+            android:id="@+id/userEmailLoginValue"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/userPasswordLoginValue"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
@@ -31,18 +31,17 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userPasswordRegisterValue" />
+            app:layout_constraintTop_toBottomOf="@+id/userEmailLoginValue" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonLogin"
             android:layout_width="147dp"
             android:layout_height="48dp"
             android:layout_marginTop="28dp"
-            android:onClick="logIn"
             android:text="@string/EntrarButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/userPasswordLoginValue" />
 
         <TextView
             android:id="@+id/textView2"
@@ -51,13 +50,13 @@
             android:layout_marginStart="80dp"
             android:layout_marginTop="28dp"
             android:text="@string/NãoPossuiConta"
-            app:layout_constraintEnd_toStartOf="@+id/textView3"
+            app:layout_constraintEnd_toStartOf="@+id/errorTextFieldsLogin"
             app:layout_constraintHorizontal_bias="0.59"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/errorTextFieldsLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -67,7 +66,7 @@
             android:textColor="@color/purple"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
         <TextView
             android:id="@+id/textView4"

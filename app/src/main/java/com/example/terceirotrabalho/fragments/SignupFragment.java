@@ -33,8 +33,8 @@ public class SignupFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
-        MaterialButton button = view.findViewById(R.id.button3);
-        button.setOnClickListener(new View.OnClickListener() {
+        MaterialButton buttonRegister = view.findViewById(R.id.buttonRegister);
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getRegisterValues();
@@ -50,7 +50,7 @@ public class SignupFragment extends Fragment {
 
         userNameText = view.findViewById(R.id.userNameRegisterValue);
         userEmailText = view.findViewById(R.id.userEmailRegisterValue);
-        userPasswordText = view.findViewById(R.id.userPasswordRegisterValue);
+        userPasswordText = view.findViewById(R.id.userEmailLoginValue);
 
         mySpinner = view.findViewById(R.id.typesSpinner);
 
@@ -74,6 +74,7 @@ public class SignupFragment extends Fragment {
     public void getRegisterValues() {
         boolean isAllFieldsOk = true;
         boolean isTypeOk = true;
+
         String userName = userNameText.getText().toString();
         String userEmail = userEmailText.getText().toString();
         String userPassword = userPasswordText.getText().toString();

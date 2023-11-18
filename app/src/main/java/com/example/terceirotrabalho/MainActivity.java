@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -62,9 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
         database = AppDatabase.getAppDatabase(getApplicationContext());
 
-        String userEncryptedPassword = CryptographyUtils.encryptPassword(userPassword);
+//        String userEncryptedPassword = CryptographyUtils.encryptPassword(userPassword);
 
-        User user = new User(userName, userEmail, userEncryptedPassword, userType);
+//        Log.d("Cadastro", userEncryptedPassword);
+
+        User user = new User(userName, userEmail, userPassword, userType);
 
         result = database.userDao().insertUser(user);
 
@@ -91,7 +95,34 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (finalResult >= 0) {
-            // Lógica de carregar activity_home
+            Log.d("CAdastro", "SUCESSO");
+            // Obtém uma referência para o SharedPreferences
+            SharedPreferences preferences = getSharedPreferences("login)info", Context.MODE_PRIVATE);
+
+            // Obtém um editor para modificar os valores
+            SharedPreferences.Editor editor = preferences.edit();
+
+            // Adiciona as informações de login
+            editor.putInt("user_id", userId);
+            editor.putBoolean("is_logged_in", user.getIsUserLogged());
+
+            // Aplica as alterações
+            editor.apply();
         }
+    }
+
+    public void loginUser(String userEmail, String userPassword) {
+        database = AppDatabase.getAppDatabase(getApplicationContext());
+
+        User user = database.userDao().getUserByEmail(userEmail);
+
+//        String userDecryptedPassword = CryptographyUtils.decryptPassword(user.getUserPassword());
+
+     if (userPassword.equals(user.getUserPassword())) {
+         Log.d("Resultado", "Usuário logado");
+     } else {
+         Log.d("Resultado", "E-mail ou senha incorretos");
+     }
+
     }
 }
