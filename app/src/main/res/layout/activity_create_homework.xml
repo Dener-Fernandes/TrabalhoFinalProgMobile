@@ -18,9 +18,8 @@
         android:id="@+id/homeworkNameCreateValue"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="92dp"
         android:hint="@string/NomeAtividade"
-        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menuSpinnerCreateHomework" />
@@ -35,5 +34,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeworkNameCreateValue" />
+    <Button
+        android:id="@+id/buttonSetTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:onClick="showTimePickerDialog"
+        android:text="Definir horário"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.242"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionCreateValue" />
 
+    <Button
+        android:id="@+id/buttonSetdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="84dp"
+        android:onClick="showDatePickerDialog"
+        android:text="Definir data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toEndOf="@+id/buttonSetTime"
+        app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionCreateValue" />
 </androidx.constraintlayout.widget.ConstraintLayout>

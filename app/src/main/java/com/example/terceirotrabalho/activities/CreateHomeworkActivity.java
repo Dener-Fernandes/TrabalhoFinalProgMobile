@@ -1,6 +1,8 @@
 package com.example.terceirotrabalho.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +14,10 @@ import android.widget.Spinner;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
+
+import com.example.terceirotrabalho.fragments.DateFragment;
+import com.example.terceirotrabalho.fragments.TimeFragment;
+
 
 public class CreateHomeworkActivity extends AppCompatActivity {
     static boolean isActivityRunning = false;
@@ -59,5 +65,14 @@ public class CreateHomeworkActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void showTimePickerDialog(View v) {
+        DialogFragment timeFragment = new TimeFragment();
+        timeFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment dateFragment = new DateFragment();
+        dateFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }
