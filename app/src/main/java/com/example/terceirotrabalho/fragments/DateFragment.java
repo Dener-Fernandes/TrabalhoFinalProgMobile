@@ -8,6 +8,8 @@ import android.widget.DatePicker;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.example.terceirotrabalho.activities.CreateHomeworkActivity;
+
 import java.util.Calendar;
 
 public class DateFragment extends DialogFragment
@@ -27,7 +29,6 @@ public class DateFragment extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        Log.d("Mês", "Valor: " + month);
-        Log.d("Dia", "Valor: " + day);
+        ((CreateHomeworkActivity)getActivity()).setDate(year, month, day);
     }
 }

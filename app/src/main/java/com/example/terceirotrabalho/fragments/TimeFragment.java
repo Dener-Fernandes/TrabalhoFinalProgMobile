@@ -4,10 +4,11 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.widget.TimePicker;
-
 import androidx.fragment.app.DialogFragment;
+
+import com.example.terceirotrabalho.activities.CreateHomeworkActivity;
+
 
 import java.util.Calendar;
 
@@ -27,7 +28,6 @@ public class TimeFragment extends DialogFragment
     }
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
-        Log.d("Hora", "Valor: " + hourOfDay);
-        Log.d("Minuto", "Valor: " + minute);
+        ((CreateHomeworkActivity)getActivity()).setTime(hourOfDay, minute);
     }
 }

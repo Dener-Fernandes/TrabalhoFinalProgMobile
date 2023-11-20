@@ -58,4 +58,7 @@ public class User {
     }
 
     public void setIsUserLogged(boolean isUserLogged) { this.isUserLogged = isUserLogged; }
+
+    @Override
+    public String toString() { return userName; }
 }

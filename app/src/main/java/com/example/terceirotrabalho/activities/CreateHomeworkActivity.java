@@ -10,19 +10,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
 
+import com.example.terceirotrabalho.alarm.MyAlarm;
+import com.example.terceirotrabalho.database.AppDatabase;
 import com.example.terceirotrabalho.fragments.DateFragment;
 import com.example.terceirotrabalho.fragments.TimeFragment;
+import com.example.terceirotrabalho.model.User;
+
+import java.util.List;
 
 
 public class CreateHomeworkActivity extends AppCompatActivity {
+    EditText homeworkName, homeworkDescription;
+    AppDatabase database;
     static boolean isActivityRunning = false;
-    Spinner menuSpinner;
+    Spinner menuSpinner, usersSpinner;
     String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE","SAIR"};
+    int year, month, day, hour, minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +40,14 @@ public class CreateHomeworkActivity extends AppCompatActivity {
 
         isActivityRunning = true;
 
-        menuSpinner = findViewById(R.id.menuSpinnerCreateHomework);
+        database = AppDatabase.getAppDatabase(getApplicationContext());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, menuOptions);
+        usersSpinner = findViewById(R.id.usersSpinnerCreateHomework);
+        populateSpinner();
+
+        // menuSpinner -----------------------------------------------------
+        menuSpinner = findViewById(R.id.menuSpinnerCreateHomework);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, menuOptions);
         menuSpinner.setAdapter(adapter);
 
         menuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -65,7 +78,30 @@ public class CreateHomeworkActivity extends AppCompatActivity {
 
             }
         });
+        // menuSpinner -----------------------------------------------------
     }
+
+    public void registerHomework(View v) {
+        homeworkName = findViewById(R.id.homeworkNameCreateValue);
+        homeworkDescription = findViewById(R.id.homeworkDescriptionCreateValue);
+        User selectedUser = (User) usersSpinner.getSelectedItem();
+
+        MyAlarm alarm = new MyAlarm();
+
+        alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute);
+    }
+
+    public void setDate(int yearValue, int monthValue, int dayValue) {
+        year = yearValue;
+        month = monthValue;
+        day = dayValue;
+    }
+
+    public void setTime(int hourValue, int minuteValue) {
+        hour = hourValue;
+        minute = minuteValue;
+    }
+
     public void showTimePickerDialog(View v) {
         DialogFragment timeFragment = new TimeFragment();
         timeFragment.show(getSupportFragmentManager(), "timePicker");
@@ -74,5 +110,15 @@ public class CreateHomeworkActivity extends AppCompatActivity {
     public void showDatePickerDialog(View v) {
         DialogFragment dateFragment = new DateFragment();
         dateFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void populateSpinner() {
+        List<User> users = database.userDao().getAllUsers();
+
+       if (!users.isEmpty()) {
+           ArrayAdapter<User> usersAdapter = new ArrayAdapter<>(this, R.layout.spinner_users, users);
+           usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+           usersSpinner.setAdapter(usersAdapter);
+       }
     }
 }
