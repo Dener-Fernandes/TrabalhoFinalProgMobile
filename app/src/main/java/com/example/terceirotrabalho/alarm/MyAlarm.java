@@ -17,22 +17,24 @@ import java.util.TimeZone;
 public class MyAlarm {
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
-    public void setAlarm(Context context, int year, int month, int day, int hour, int minute) {
+    public void setAlarm(Context context, int year, int month, int day, int hour, int minute, String
+                         homeworkName, String homeworkDescription) {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         // Crie um Intent para o BroadcastReceiver
         Intent intent = new Intent(context, MyReceiver.class);
+        intent.putExtra("homeworkName", homeworkName);
+        intent.putExtra("homeworkDescription", homeworkDescription);
         intent.setAction("ATIVIDADE_A_SER_REALIZADA");
 
         // Crie um PendingIntent para o BroadcastReceiver
         pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
         // Configure o Calendar com o tempo desejado
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month); // Meses começam do 0 (janeiro) até 11 (dezembro)
+        calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
