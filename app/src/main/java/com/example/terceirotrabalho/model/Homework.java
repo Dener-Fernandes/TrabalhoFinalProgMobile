@@ -31,6 +31,16 @@ public class Homework {
     @ColumnInfo(name = "fk_author_id")
     public int fkAuthorId;
 
+    public Homework(String homeworkName, String homeworkDescription, LocalDate homeworkDate,
+                    LocalTime homeworkTime, int fkStudentId, int fkAuthorId) {
+        this.homeworkName = homeworkName;
+        this.homeworkDescription = homeworkDescription;
+        this.homeworkTime = homeworkTime;
+        this.homeworkDate = homeworkDate;
+        this.fkStudentId = fkStudentId;
+        this.fkAuthorId = fkAuthorId;
+    }
+
     public int getHomeworkId() { return homeworkId; }
 
     public String getHomeworkName() { return homeworkName; }

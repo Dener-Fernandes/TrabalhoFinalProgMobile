@@ -22,6 +22,7 @@ import com.example.terceirotrabalho.fragments.DateFragment;
 import com.example.terceirotrabalho.fragments.TimeFragment;
 import com.example.terceirotrabalho.model.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -90,9 +91,14 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         homeworkName = homeworkNameField.getText().toString();
         homeworkDescription = homeworkDescriptionField.getText().toString();
 
-        MyAlarm alarm = new MyAlarm();
+        if (!homeworkName.isEmpty() && !homeworkDescription.isEmpty()) {
 
-        alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
+
+
+            MyAlarm alarm = new MyAlarm();
+
+            alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
+        }
     }
 
     public void setDate(int yearValue, int monthValue, int dayValue) {
