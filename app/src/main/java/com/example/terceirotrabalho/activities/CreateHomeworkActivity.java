@@ -26,12 +26,13 @@ import java.util.List;
 
 
 public class CreateHomeworkActivity extends AppCompatActivity {
-    EditText homeworkName, homeworkDescription;
+    EditText homeworkNameField, homeworkDescriptionField;
     AppDatabase database;
     static boolean isActivityRunning = false;
     Spinner menuSpinner, usersSpinner;
     String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE","SAIR"};
     int year, month, day, hour, minute;
+    String homeworkName, homeworkDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,13 +83,16 @@ public class CreateHomeworkActivity extends AppCompatActivity {
     }
 
     public void registerHomework(View v) {
-        homeworkName = findViewById(R.id.homeworkNameCreateValue);
-        homeworkDescription = findViewById(R.id.homeworkDescriptionCreateValue);
+        homeworkNameField = findViewById(R.id.homeworkNameCreateValue);
+        homeworkDescriptionField = findViewById(R.id.homeworkDescriptionCreateValue);
         User selectedUser = (User) usersSpinner.getSelectedItem();
+
+        homeworkName = homeworkNameField.getText().toString();
+        homeworkDescription = homeworkDescriptionField.getText().toString();
 
         MyAlarm alarm = new MyAlarm();
 
-        alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute);
+        alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
     }
 
     public void setDate(int yearValue, int monthValue, int dayValue) {
