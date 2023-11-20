@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.terceirotrabalho.activities.HomeActivity;
 import com.example.terceirotrabalho.cryptography.CryptographyUtils;
 import com.example.terceirotrabalho.database.AppDatabase;
 import com.example.terceirotrabalho.fragments.LoginFragment;
@@ -119,7 +121,21 @@ public class MainActivity extends AppCompatActivity {
 //        String userDecryptedPassword = CryptographyUtils.decryptPassword(user.getUserPassword());
 
      if (userPassword.equals(user.getUserPassword())) {
-         Log.d("Resultado", "Usuário logado");
+         SharedPreferences preferences = getSharedPreferences("login)info", Context.MODE_PRIVATE);
+
+         // Obtém um editor para modificar os valores
+         SharedPreferences.Editor editor = preferences.edit();
+
+         user.setIsUserLogged(true);
+         // Adiciona as informações de login
+         editor.putInt("user_id", user.getUserId());
+         editor.putBoolean("is_logged_in", true);
+
+         // Aplica as alterações
+         editor.apply();
+
+         Intent it_home = new Intent(this, HomeActivity.class);
+         startActivity(it_home);
      } else {
          Log.d("Resultado", "E-mail ou senha incorretos");
      }
