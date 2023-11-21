@@ -14,4 +14,17 @@
     <string name="PreenchaTodosOsCampos">Preencha todos os campos</string>
     <string name="EscolhaUmTipo">Escolha um tipo</string>
     <!-- Main (Login e Cadastro) -->
+
+    <!--> CreateHomework -->
+    <string name="CriarAtividade">Crie uma atividade</string>
+    <string name="NomeAtividade">Digite o nome da atividade</string>
+    <string name="DescricaoAtividade">Digite a descrição da atividade</string>
+    <string name="PrazoAtividade">
+        Informe o prazo dentro do qual a atividade deve ser cumprida
+    </string>
+    <string name="UsuarioAtividade">Informe para quem é esta atividade</string>
+    <string name="RelacionarUsuario">Relacione um usuário a esta atividade</string>
+    <string name="CriarAtividadeButton">Criar</string>
+
+
 </resources>
