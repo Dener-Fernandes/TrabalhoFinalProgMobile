@@ -24,7 +24,11 @@
     </string>
     <string name="UsuarioAtividade">Informe para quem é esta atividade</string>
     <string name="RelacionarUsuario">Relacione um usuário a esta atividade</string>
-    <string name="CriarAtividadeButton">Criar</string>
+    <string name="CriarAtividadeButton">CRIAR</string>
+    <string name="ExcluirAtividadeButton">EXCLUIR</string>
+    <string name="EditarAtividadeButton">EDITAR</string>
+    <string name="ConcluirAtividadeButton">CONCLUIR</string>
+    <!--> CreateHomework -->
 
 
 </resources>

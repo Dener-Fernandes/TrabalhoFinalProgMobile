@@ -53,26 +53,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:paddingLeft="95dp">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/buttonDeleteHomework"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Excluir" />
+            android:layout_marginLeft="5dp"
+            android:text="@string/ExcluirAtividadeButton" />
 
         <Button
             android:id="@+id/buttonEditHomework"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Editar" />
+            android:layout_marginLeft="5dp"
+            android:text="@string/EditarAtividadeButton" />
 
         <Button
             android:id="@+id/buttonMarkHomeworkAsDone"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Concluir" />
+            android:layout_marginLeft="5dp"
+            android:text="@string/ConcluirAtividadeButton" />
 
     </LinearLayout>
 
