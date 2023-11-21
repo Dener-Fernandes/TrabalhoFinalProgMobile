@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Date;
+import java.sql.Time;
 
 @Entity(tableName = "homework")
 public class Homework {
@@ -20,10 +20,10 @@ public class Homework {
     public String homeworkDescription;
 
     @ColumnInfo(name = "homework_date")
-    public LocalDate homeworkDate;
+    public Long homeworkDate;  // Alterado para Long
 
     @ColumnInfo(name = "homework_time")
-    public LocalTime homeworkTime;
+    public Long homeworkTime;  // Alterado para Long
 
     @ColumnInfo(name = "fk_student_id")
     public int fkStudentId;
@@ -31,23 +31,38 @@ public class Homework {
     @ColumnInfo(name = "fk_author_id")
     public int fkAuthorId;
 
-    public Homework(String homeworkName, String homeworkDescription, LocalDate homeworkDate,
-                    LocalTime homeworkTime, int fkStudentId, int fkAuthorId) {
+    public Homework(String homeworkName, String homeworkDescription, Long homeworkDate,
+                    Long homeworkTime, int fkStudentId, int fkAuthorId) {
         this.homeworkName = homeworkName;
         this.homeworkDescription = homeworkDescription;
-        this.homeworkTime = homeworkTime;
         this.homeworkDate = homeworkDate;
+        this.homeworkTime = homeworkTime;
         this.fkStudentId = fkStudentId;
         this.fkAuthorId = fkAuthorId;
     }
 
-    public int getHomeworkId() { return homeworkId; }
+    public void setId(long result) {
+        this.homeworkId = (int) result;
+    }
 
-    public String getHomeworkName() { return homeworkName; }
+    public int getHomeworkId() {
+        return homeworkId;
+    }
 
-    public String getHomeworkDescription() { return homeworkDescription; }
+    public String getHomeworkName() {
+        return homeworkName;
+    }
 
-    public LocalDate getHomeworkDate() { return homeworkDate; }
+    public String getHomeworkDescription() {
+        return homeworkDescription;
+    }
 
-    public LocalTime getHomeworkTime() { return homeworkTime; }
+    public long getHomeworkDate() {
+        return homeworkDate;
+    }
+
+    public long getHomeworkTime() {
+        return homeworkTime;
+    }
+
 }

@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +22,12 @@ import com.example.terceirotrabalho.alarm.MyAlarm;
 import com.example.terceirotrabalho.database.AppDatabase;
 import com.example.terceirotrabalho.fragments.DateFragment;
 import com.example.terceirotrabalho.fragments.TimeFragment;
+import com.example.terceirotrabalho.model.Homework;
 import com.example.terceirotrabalho.model.User;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 
@@ -92,12 +97,28 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         homeworkDescription = homeworkDescriptionField.getText().toString();
 
         if (!homeworkName.isEmpty() && !homeworkDescription.isEmpty()) {
+            SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+            int authorId = preferences.getInt("userId", 0);
 
+            LocalDate homeworkDate = LocalDate.of(year, month, day);
 
+            LocalTime homeworkTime = LocalTime.of(hour, minute, 0);
 
-            MyAlarm alarm = new MyAlarm();
+            long homeworkDateInSeconds = homeworkDate.atStartOfDay(ZoneOffset.UTC).toEpochSecond();
+            long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
 
-            alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
+            Homework homework = new Homework(homeworkName, homeworkDescription, homeworkDateInSeconds,
+                    homeworkTimeInSeconds, selectedUser.getUserId(), authorId);
+
+            long result = database.homeworkDao().insertHomework(homework);
+
+            if (result > 0) {
+                MyAlarm alarm = new MyAlarm();
+
+                alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
+
+                Log.d("Resultado", "Inserido " + result);
+            }
         }
     }
 
