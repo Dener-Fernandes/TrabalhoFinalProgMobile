@@ -101,7 +101,6 @@
         android:layout_width="168dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
-        android:onClick="registerHomework"
         android:text="@string/Voltar"
         app:layout_constraintEnd_toStartOf="@+id/button1"
         app:layout_constraintStart_toStartOf="parent"
