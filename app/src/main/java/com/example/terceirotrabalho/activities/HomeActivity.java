@@ -2,19 +2,27 @@ package com.example.terceirotrabalho.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
+import com.example.terceirotrabalho.adapters.HomeworkAdapter;
+import com.example.terceirotrabalho.database.AppDatabase;
+import com.example.terceirotrabalho.model.Homework;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-
+    AppDatabase database;
     static boolean isActivityRunning = false;
     Spinner menuSpinner;
     String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE","SAIR"};
@@ -25,9 +33,10 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         isActivityRunning = true;
+        database = AppDatabase.getAppDatabase(getApplicationContext());
 
+        //Spinner menu
         menuSpinner = findViewById(R.id.menuSpinnerHome);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, menuOptions);
         menuSpinner.setAdapter(adapter);
@@ -60,5 +69,6 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+        //Spinner menu
     }
 }

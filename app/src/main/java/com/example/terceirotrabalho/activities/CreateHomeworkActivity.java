@@ -4,25 +4,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
 
+import com.example.terceirotrabalho.adapters.HomeworkAdapter;
 import com.example.terceirotrabalho.alarm.MyAlarm;
 import com.example.terceirotrabalho.database.AppDatabase;
 import com.example.terceirotrabalho.fragments.DateFragment;
 import com.example.terceirotrabalho.fragments.TimeFragment;
+import com.example.terceirotrabalho.model.Homework;
 import com.example.terceirotrabalho.model.User;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 
@@ -34,6 +41,9 @@ public class CreateHomeworkActivity extends AppCompatActivity {
     String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE","SAIR"};
     int year, month, day, hour, minute;
     String homeworkName, homeworkDescription;
+    HomeworkAdapter homeworkAdapter;
+    List<Homework> homeworks;
+    ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +51,22 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_homework);
 
         isActivityRunning = true;
-
         database = AppDatabase.getAppDatabase(getApplicationContext());
 
+        // ListView homeworks
+        SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        int studentId = preferences.getInt("userId", 0);
+
+        list = findViewById(R.id.homeworksListView);
+        homeworks = database.homeworkDao().getHomeworksForStudent(studentId);
+        homeworkAdapter = new HomeworkAdapter(this, homeworks);
+        list.setAdapter(homeworkAdapter);
+        // ListView homeworks
+
+        // userSpinner
         usersSpinner = findViewById(R.id.usersSpinnerCreateHomework);
         populateSpinner();
+        // userSpinner
 
         // menuSpinner -----------------------------------------------------
         menuSpinner = findViewById(R.id.menuSpinnerCreateHomework);
@@ -92,12 +113,28 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         homeworkDescription = homeworkDescriptionField.getText().toString();
 
         if (!homeworkName.isEmpty() && !homeworkDescription.isEmpty()) {
+            SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+            int authorId = preferences.getInt("userId", 0);
 
+            LocalDate homeworkDate = LocalDate.of(year, month, day);
 
+            LocalTime homeworkTime = LocalTime.of(hour, minute, 0);
 
-            MyAlarm alarm = new MyAlarm();
+            long homeworkDateInSeconds = homeworkDate.atStartOfDay(ZoneOffset.UTC).toEpochSecond();
+            long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
 
-            alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
+            Homework homework = new Homework(homeworkName, homeworkDescription, homeworkDateInSeconds,
+                    homeworkTimeInSeconds, selectedUser.getUserId(), authorId);
+
+            long result = database.homeworkDao().insertHomework(homework);
+
+            if (result > 0) {
+                MyAlarm alarm = new MyAlarm();
+
+                alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
+
+                Log.d("Resultado", "Inserido " + result);
+            }
         }
     }
 
