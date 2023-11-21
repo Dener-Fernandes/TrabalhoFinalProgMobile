@@ -17,8 +17,8 @@
 
     <EditText
         android:id="@+id/homeworkNameCreateValue"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
+        android:layout_width="338dp"
+        android:layout_height="44dp"
         android:layout_marginTop="80dp"
         android:hint="@string/NomeAtividade"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,8 +28,8 @@
 
     <EditText
         android:id="@+id/homeworkDescriptionCreateValue"
-        android:layout_width="277dp"
-        android:layout_height="69dp"
+        android:layout_width="334dp"
+        android:layout_height="70dp"
         android:layout_marginTop="12dp"
         android:hint="@string/DescricaoAtividade"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,44 +39,43 @@
 
     <Button
         android:id="@+id/buttonSetTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_width="170dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="24dp"
         android:onClick="showTimePickerDialog"
-        android:text="Definir horário"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.246"
+        android:text="DEFINIR HORÁRIO"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSetdate"
+        app:layout_constraintHorizontal_bias="0.761"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionCreateValue" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
         android:id="@+id/buttonSetdate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="84dp"
+        android:layout_width="170dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="24dp"
         android:onClick="showDatePickerDialog"
-        android:text="Definir data"
+        android:text="DEFINIR DATA"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.014"
-        app:layout_constraintStart_toEndOf="@+id/buttonSetTime"
-        app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionCreateValue" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Spinner
         android:id="@+id/usersSpinnerCreateHomework"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
         android:entries="@array/tipos_array"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.221"
+        app:layout_constraintHorizontal_bias="0.129"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionCreateValue" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="170dp"
+        android:layout_height="47dp"
         android:layout_marginTop="12dp"
         android:text="@string/CriarAtividade"
         android:textSize="34sp"
@@ -87,25 +86,44 @@
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="312dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="12dp"
         android:text="@string/RelacionarUsuario"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.373"
+        app:layout_constraintHorizontal_bias="0.383"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionCreateValue" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="278dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="168dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:onClick="registerHomework"
+        android:text="@string/Voltar"
+        app:layout_constraintEnd_toStartOf="@+id/button1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSetTime" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="183dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
         android:onClick="registerHomework"
         android:text="@string/CriarAtividadeButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSetdate" />
+
+    <ListView
+        android:id="@+id/homeworksListView"
+        android:layout_width="411dp"
+        android:layout_height="277dp"
+        android:layout_marginTop="180dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSetTime" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 </androidx.constraintlayout.widget.ConstraintLayout>

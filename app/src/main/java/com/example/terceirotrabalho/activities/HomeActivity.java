@@ -23,14 +23,9 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     AppDatabase database;
-    ListView list;
     static boolean isActivityRunning = false;
     Spinner menuSpinner;
-    HomeworkAdapter homeworkAdapter;
     String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE","SAIR"};
-
-    List<Homework> homeworks;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +33,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         isActivityRunning = true;
-
         database = AppDatabase.getAppDatabase(getApplicationContext());
-
-        SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        int studentId = preferences.getInt("userId", 0);
-
-        Log.d("ID", "Resultado: " + studentId);
-        // ListView homeworks
-        list = findViewById(R.id.homeworkListView);
-        homeworks = database.homeworkDao().getHomeworksForStudent(studentId);
-        homeworkAdapter = new HomeworkAdapter(this, homeworks);
-        list.setAdapter(homeworkAdapter);
-
-//        Log.d("Homework", "Resultado: " + homeworks);
-        // ListView homeworks
 
         //Spinner menu
         menuSpinner = findViewById(R.id.menuSpinnerHome);
