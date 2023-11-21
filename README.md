@@ -1,6 +1,6 @@
 # TrabalhoFinalProgMobile
 
-### Alunos: Dener Fernandes de Oliveira e Fernanda de Paula Pessoa
+### Alunos: Annia Luiza Sebold Almeida, Dener Fernandes de Oliveira e Fernanda de Paula Pessoa
 
 ### Visão geral
 
