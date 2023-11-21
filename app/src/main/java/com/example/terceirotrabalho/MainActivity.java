@@ -97,19 +97,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (finalResult >= 0) {
-            Log.d("CAdastro", "SUCESSO");
+            Log.d("Cadastro", "SUCESSO");
             // Obtém uma referência para o SharedPreferences
-            SharedPreferences preferences = getSharedPreferences("login)info", Context.MODE_PRIVATE);
+            SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
 
             // Obtém um editor para modificar os valores
             SharedPreferences.Editor editor = preferences.edit();
 
             // Adiciona as informações de login
-            editor.putInt("user_id", userId);
-            editor.putBoolean("is_logged_in", user.getIsUserLogged());
+            editor.putInt("userId", userId);
+            editor.putString("userType", userType);
+            editor.putBoolean("isLoggedIn", user.getIsUserLogged());
 
             // Aplica as alterações
             editor.apply();
+
+            Intent it_home = new Intent(this, HomeActivity.class);
+            startActivity(it_home);
         }
     }
 
@@ -120,25 +124,28 @@ public class MainActivity extends AppCompatActivity {
 
 //        String userDecryptedPassword = CryptographyUtils.decryptPassword(user.getUserPassword());
 
-     if (userPassword.equals(user.getUserPassword())) {
-         SharedPreferences preferences = getSharedPreferences("login)info", Context.MODE_PRIVATE);
+        if (user != null) {
+            if (userPassword.equals(user.getUserPassword())) {
+                SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
 
-         // Obtém um editor para modificar os valores
-         SharedPreferences.Editor editor = preferences.edit();
+                // Obtém um editor para modificar os valores
+                SharedPreferences.Editor editor = preferences.edit();
 
-         user.setIsUserLogged(true);
-         // Adiciona as informações de login
-         editor.putInt("user_id", user.getUserId());
-         editor.putBoolean("is_logged_in", true);
+                user.setIsUserLogged(true);
+                // Adiciona as informações de login
+                editor.putInt("userId", user.getUserId());
+                editor.putString("userType", user.getUserType());
+                editor.putBoolean("isLoggedIn", true);
 
-         // Aplica as alterações
-         editor.apply();
+                // Aplica as alterações
+                editor.apply();
 
-         Intent it_home = new Intent(this, HomeActivity.class);
-         startActivity(it_home);
-     } else {
-         Log.d("Resultado", "E-mail ou senha incorretos");
-     }
+                Intent it_home = new Intent(this, HomeActivity.class);
+                startActivity(it_home);
+            } else {
+                Log.d("Resultado", "E-mail ou senha incorretos");
+            }
+        }
 
     }
 }
