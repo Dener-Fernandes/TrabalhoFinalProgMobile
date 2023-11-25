@@ -97,11 +97,12 @@
         app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionCreateValue" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonBack"
         android:layout_width="168dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
         android:text="@string/Voltar"
+        android:onClick="backToHome"
         app:layout_constraintEnd_toStartOf="@+id/button1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSetTime" />
