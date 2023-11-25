@@ -8,13 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
@@ -38,12 +38,16 @@ public class CreateHomeworkActivity extends AppCompatActivity {
     AppDatabase database;
     static boolean isActivityRunning = false;
     Spinner menuSpinner, usersSpinner;
-    String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE","SAIR"};
+    String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE", "SAIR"};
     int year, month, day, hour, minute;
     String homeworkName, homeworkDescription;
     HomeworkAdapter homeworkAdapter;
     List<Homework> homeworks;
     ListView list;
+    TextView textViewErrorFields, textViewErrorSpinner;
+
+    public static final int REQUEST_CODE_EDIT_HOMEWORK = 1;
+    public static final int RESULT_SUCCESS_EDIT_HOMEWORK = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         // ListView homeworks
 
         // userSpinner
-        usersSpinner = findViewById(R.id.usersSpinnerCreateHomework);
+        usersSpinner = findViewById(R.id.usersSpinnerEditHomework);
         populateSpinner();
         // userSpinner
 
@@ -82,10 +86,10 @@ public class CreateHomeworkActivity extends AppCompatActivity {
                     startActivity(it_home);
                 }
                 if (i == 2) {
-                 if (!CreateHomeworkActivity.isActivityRunning) {
-                     Intent it_create_homework = new Intent(CreateHomeworkActivity.this, CreateHomeworkActivity.class);
-                     startActivity(it_create_homework);
-                 }
+                    if (!CreateHomeworkActivity.isActivityRunning) {
+                        Intent it_create_homework = new Intent(CreateHomeworkActivity.this, CreateHomeworkActivity.class);
+                        startActivity(it_create_homework);
+                    }
                 }
 
                 if (i == 3) {
@@ -105,14 +109,22 @@ public class CreateHomeworkActivity extends AppCompatActivity {
     }
 
     public void registerHomework(View v) {
-        homeworkNameField = findViewById(R.id.homeworkNameCreateValue);
-        homeworkDescriptionField = findViewById(R.id.homeworkDescriptionCreateValue);
+        boolean isHomeworkAbleToSave = true;
+
+        homeworkNameField = findViewById(R.id.homeworkNameEditValue);
+        homeworkDescriptionField = findViewById(R.id.homeworkDescriptionEditValue);
         User selectedUser = (User) usersSpinner.getSelectedItem();
 
         homeworkName = homeworkNameField.getText().toString();
         homeworkDescription = homeworkDescriptionField.getText().toString();
 
-        if (!homeworkName.isEmpty() && !homeworkDescription.isEmpty()) {
+        if (homeworkName.isEmpty() || homeworkDescription.isEmpty()) {
+            isHomeworkAbleToSave = false;
+            textViewErrorFields = findViewById(R.id.textViewErrorFields);
+            textViewErrorFields.setVisibility(View.VISIBLE);
+        }
+
+        if (isHomeworkAbleToSave) {
             SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
             int authorId = preferences.getInt("userId", 0);
 
@@ -133,7 +145,11 @@ public class CreateHomeworkActivity extends AppCompatActivity {
 
                 alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
 
-                Log.d("Resultado", "Inserido " + result);
+                homework.setId(result);
+                homeworkAdapter.addHomework(homework);
+                homeworkNameField.setText("");
+                homeworkDescriptionField.setText("");
+                textViewErrorFields.setVisibility(View.GONE);
             }
         }
     }
@@ -162,10 +178,24 @@ public class CreateHomeworkActivity extends AppCompatActivity {
     public void populateSpinner() {
         List<User> users = database.userDao().getAllUsers();
 
-       if (!users.isEmpty()) {
-           ArrayAdapter<User> usersAdapter = new ArrayAdapter<>(this, R.layout.spinner_users, users);
-           usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-           usersSpinner.setAdapter(usersAdapter);
-       }
+        if (!users.isEmpty()) {
+            ArrayAdapter<User> usersAdapter = new ArrayAdapter<>(this, R.layout.spinner_users, users);
+            usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            usersSpinner.setAdapter(usersAdapter);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        int studentId = preferences.getInt("userId", 0);
+
+        if (requestCode == REQUEST_CODE_EDIT_HOMEWORK && resultCode == RESULT_SUCCESS_EDIT_HOMEWORK) {
+            homeworks = database.homeworkDao().getHomeworksForStudent(studentId);
+            homeworkAdapter.atualizarDados(homeworks);
+        }
+
     }
 }
