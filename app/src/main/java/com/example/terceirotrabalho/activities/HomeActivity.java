@@ -71,4 +71,10 @@ public class HomeActivity extends AppCompatActivity {
         });
         //Spinner menu
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        menuSpinner.setSelection(0);
+    }
 }

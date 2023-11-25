@@ -12,14 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class LoginFragment extends Fragment {
-    TextView errorTextFieldsLogin;
+    TextView errorTextFieldsLogin, errorTextLogin;
     EditText userEmailText, userPasswordText;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +48,8 @@ public class LoginFragment extends Fragment {
 
         userEmailText = view.findViewById(R.id.userEmailLoginValue);
         userPasswordText = view.findViewById(R.id.userPasswordLoginValue);
+        errorTextLogin = getView().findViewById(R.id.errorTextLogin);
+        errorTextFieldsLogin = getView().findViewById(R.id.errorTextFieldsLogin);
     }
 
     public void getLoginValues() {
@@ -51,10 +57,21 @@ public class LoginFragment extends Fragment {
         String userPassword = userPasswordText.getText().toString();
 
         if (userEmail.isEmpty() || userPassword.isEmpty()) {
-            errorTextFieldsLogin = getView().findViewById(R.id.errorTextFieldsLogin);
-            errorTextFieldsLogin.setVisibility(View.VISIBLE);
-        } else {
+            errorTextLogin.setVisibility(View.VISIBLE);
+            errorTextLogin.setText("Preencha e-mail e senha.");
+        } else if(!userEmail.isEmpty() && !validateEmail(userEmail)) {
+            errorTextLogin.setVisibility(View.VISIBLE);
+            errorTextLogin.setText("E-mail inserido é inválido.");
+        }
+        else {
             ((MainActivity)getActivity()).loginUser(userEmail, userPassword);
         }
+    }
+
+    public static boolean validateEmail(String inputEmail) {
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(inputEmail);
+        return matcher.matches();
     }
 }

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.terceirotrabalho.activities.HomeActivity;
 import com.example.terceirotrabalho.cryptography.CryptographyUtils;
@@ -143,7 +144,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent it_home = new Intent(this, HomeActivity.class);
                 startActivity(it_home);
             } else {
-                Log.d("Resultado", "E-mail ou senha incorretos");
+                Toast.makeText(this, "E-mail ou senha incorretos.", Toast.LENGTH_LONG).show();
+                return;
             }
         }
 

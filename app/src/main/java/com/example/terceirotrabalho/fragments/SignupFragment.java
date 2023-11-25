@@ -19,6 +19,9 @@ import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SignupFragment extends Fragment {
 
     TextView errorTextFields, errorTextTypes;
@@ -78,10 +81,15 @@ public class SignupFragment extends Fragment {
         String userName = userNameText.getText().toString();
         String userEmail = userEmailText.getText().toString();
         String userPassword = userPasswordText.getText().toString();
+        errorTextFields = getView().findViewById(R.id.errorTextFields);
 
         if (userName.isEmpty() || userEmail.isEmpty() || userPassword.isEmpty()) {
-            errorTextFields = getView().findViewById(R.id.errorTextFields);
             errorTextFields.setVisibility(View.VISIBLE);
+            errorTextFields.setText("Preencha todos os campos.");
+            isAllFieldsOk = false;
+        } else if(!userEmail.isEmpty() && !validateEmail(userEmail)) {
+            errorTextFields.setVisibility(View.VISIBLE);
+            errorTextFields.setText("E-mail inserido é inválido.");
             isAllFieldsOk = false;
         }
 
@@ -94,5 +102,12 @@ public class SignupFragment extends Fragment {
         if (isAllFieldsOk == true && isTypeOk == true) {
             ((MainActivity)getActivity()).registerUser(userName, userEmail, userPassword, userType);
         }
+    }
+
+    public static boolean validateEmail(String inputEmail) {
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(inputEmail);
+        return matcher.matches();
     }
 }

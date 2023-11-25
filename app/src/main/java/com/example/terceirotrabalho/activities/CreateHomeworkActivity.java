@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
@@ -112,6 +113,14 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         homeworkName = homeworkNameField.getText().toString();
         homeworkDescription = homeworkDescriptionField.getText().toString();
 
+        if (homeworkName.equals("") || homeworkDescription.equals("")) {
+            Toast.makeText(this, "Preencha os campos para salvar.", Toast.LENGTH_LONG).show();
+            return;
+        } else if(homeworkName.length() < 3 || homeworkDescription.length() < 3) {
+            Toast.makeText(this, "Preencha os campos corretamente para salvar.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (!homeworkName.isEmpty() && !homeworkDescription.isEmpty()) {
             SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
             int authorId = preferences.getInt("userId", 0);
@@ -136,6 +145,10 @@ public class CreateHomeworkActivity extends AppCompatActivity {
                 Log.d("Resultado", "Inserido " + result);
             }
         }
+    }
+
+    public void backToHome(View view) {
+        finish();
     }
 
     public void setDate(int yearValue, int monthValue, int dayValue) {
