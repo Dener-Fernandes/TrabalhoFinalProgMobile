@@ -4,16 +4,19 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.TimePicker;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.terceirotrabalho.activities.CreateHomeworkActivity;
+import com.example.terceirotrabalho.activities.EditHomeworkActivity;
 
 
 import java.util.Calendar;
 
 public class TimeFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
+    String classOrigin;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,7 +30,16 @@ public class TimeFragment extends DialogFragment
                 DateFormat.is24HourFormat(getActivity()));
     }
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // Do something with the time chosen by the user
-        ((CreateHomeworkActivity)getActivity()).setTime(hourOfDay, minute);
+        Bundle args = getArguments();
+
+        if (args != null) {
+            classOrigin  = args.getString("classOrigin", "");
+        }
+
+        if (classOrigin.isEmpty()) {
+            ((CreateHomeworkActivity)getActivity()).setTime(hourOfDay, minute);
+        } else {
+            ((EditHomeworkActivity)getActivity()).setTime(hourOfDay, minute);
+        }
     }
 }
