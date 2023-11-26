@@ -119,7 +119,7 @@ public class EditHomeworkActivity extends AppCompatActivity {
             long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
 
             Homework homework = new Homework(newHomeworkName, newHomeworkDescription, homeworkDateInSeconds,
-                    homeworkTimeInSeconds, user.getUserId(), authorId);
+                    homeworkTimeInSeconds, user.getUserId(), authorId, false);
 
             homework.setId(homeworkId);
 
@@ -133,6 +133,10 @@ public class EditHomeworkActivity extends AppCompatActivity {
             setResult(CreateHomeworkActivity.RESULT_SUCCESS_EDIT_HOMEWORK);
             finish();
         }
+    }
+
+    public void backToHome(View v) {
+        finish();
     }
 
     public void setDate(int yearValue, int monthValue, int dayValue) {

@@ -135,7 +135,7 @@ public class CreateHomeworkActivity extends AppCompatActivity {
             long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
 
             Homework homework = new Homework(homeworkName, homeworkDescription, homeworkDateInSeconds,
-                    homeworkTimeInSeconds, user.getUserId(), authorId);
+                    homeworkTimeInSeconds, user.getUserId(), authorId, false);
 
             long result = database.homeworkDao().insertHomework(homework);
 
@@ -153,6 +153,10 @@ public class CreateHomeworkActivity extends AppCompatActivity {
 //                textViewErrorFields.setVisibility(View.GONE);
             }
         }
+    }
+
+    public void backToHome(View v) {
+        finish();
     }
 
     public void setDate(int yearValue, int monthValue, int dayValue) {

@@ -28,9 +28,18 @@ public interface HomeworkDao {
     @Query("SELECT * FROM homework WHERE fk_author_id = :authorId")
     public List<Homework> getHomeworksByAuthor(int authorId);
 
+    @Query("SELECT * FROM homework WHERE fk_author_id = :authorId AND finished = :finished")
+    public List<Homework> getHomeworkByAuthorAndFinished(int authorId, boolean finished);
+
+    @Query("SELECT * FROM homework WHERE fk_student_id = :studentId AND finished = :finished")
+    public List<Homework> getHomeworksForStudentAndFinished(int studentId, boolean finished);
+
     @Delete
     public void deleteHomework(Homework homework);
 
     @Query("DELETE FROM homework")
     public void deleteAllHomeworks();
+
+    @Query("UPDATE homework SET finished = :finished WHERE homework_id = :homeworkId")
+    public void updateHomeworkFinishedStatus(int homeworkId, boolean finished);
 }
