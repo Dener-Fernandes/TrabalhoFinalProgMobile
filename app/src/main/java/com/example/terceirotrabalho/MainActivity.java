@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.terceirotrabalho.activities.HomeActivity;
-import com.example.terceirotrabalho.cryptography.CryptographyUtils;
 import com.example.terceirotrabalho.database.AppDatabase;
 import com.example.terceirotrabalho.fragments.LoginFragment;
 import com.example.terceirotrabalho.fragments.SignupFragment;
@@ -66,10 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         database = AppDatabase.getAppDatabase(getApplicationContext());
 
-//        String userEncryptedPassword = CryptographyUtils.encryptPassword(userPassword);
-
-//        Log.d("Cadastro", userEncryptedPassword);
-
         User user = new User(userName, userEmail, userPassword, userType);
 
         try {
@@ -98,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (finalResult >= 0) {
-                Log.d("Cadastro", "SUCESSO");
                 // Obtém uma referência para o SharedPreferences
                 SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
 
@@ -126,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
        try {
            User user = database.userDao().getUserByEmail(userEmail);
-
-//        String userDecryptedPassword = CryptographyUtils.decryptPassword(user.getUserPassword());
 
            if (user != null) {
                if (userPassword.equals(user.getUserPassword())) {
