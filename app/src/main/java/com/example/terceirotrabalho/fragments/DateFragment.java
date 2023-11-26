@@ -36,7 +36,7 @@ public class DateFragment extends DialogFragment
             classOrigin  = args.getString("classOrigin", "");
         }
 
-        if (classOrigin.isEmpty()) {
+        if (classOrigin.equals("CreateHomeworkActivity")) {
             ((CreateHomeworkActivity)getActivity()).setDate(year, month, day);
         } else {
             ((EditHomeworkActivity)getActivity()).setDate(year, month, day);

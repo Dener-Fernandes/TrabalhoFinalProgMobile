@@ -36,7 +36,7 @@ public class TimeFragment extends DialogFragment
             classOrigin  = args.getString("classOrigin", "");
         }
 
-        if (classOrigin.isEmpty()) {
+        if (classOrigin.equals("CreateHomeworkActivity")) {
             ((CreateHomeworkActivity)getActivity()).setTime(hourOfDay, minute);
         } else {
             ((EditHomeworkActivity)getActivity()).setTime(hourOfDay, minute);
