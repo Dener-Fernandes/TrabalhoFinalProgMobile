@@ -9,11 +9,13 @@ import android.widget.DatePicker;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.terceirotrabalho.activities.CreateHomeworkActivity;
+import com.example.terceirotrabalho.activities.EditHomeworkActivity;
 
 import java.util.Calendar;
 
 public class DateFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
+    String classOrigin;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -28,7 +30,16 @@ public class DateFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
-        ((CreateHomeworkActivity)getActivity()).setDate(year, month, day);
+        Bundle args = getArguments();
+
+        if (args != null) {
+            classOrigin  = args.getString("classOrigin", "");
+        }
+
+        if (classOrigin.isEmpty()) {
+            ((CreateHomeworkActivity)getActivity()).setDate(year, month, day);
+        } else {
+            ((EditHomeworkActivity)getActivity()).setDate(year, month, day);
+        }
     }
 }

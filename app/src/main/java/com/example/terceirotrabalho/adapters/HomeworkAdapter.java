@@ -1,15 +1,22 @@
 package com.example.terceirotrabalho.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.terceirotrabalho.DAO.HomeworkDao;
 import com.example.terceirotrabalho.R;
+import com.example.terceirotrabalho.activities.CreateHomeworkActivity;
+import com.example.terceirotrabalho.activities.EditHomeworkActivity;
+import com.example.terceirotrabalho.database.AppDatabase;
 import com.example.terceirotrabalho.model.Homework;
 
 import java.util.List;
@@ -17,11 +24,13 @@ import java.util.List;
 public class HomeworkAdapter extends ArrayAdapter<Homework> {
     private List<Homework> homeworkList;
     private Context context;
+    private HomeworkDao homeworkDao;
 
     public HomeworkAdapter(@NonNull Context context, List<Homework> homeworkList) {
         super(context, 0,homeworkList);
         this.context = context;
         this.homeworkList = homeworkList;
+        this.homeworkDao = AppDatabase.getAppDatabase(context).homeworkDao();
     }
 
     public void addHomework(Homework homework) {
@@ -48,11 +57,28 @@ public class HomeworkAdapter extends ArrayAdapter<Homework> {
         TextView textViewHomeworkDescription = convertView.findViewById(R.id.homeworkDescriptionHome);
         TextView textViewHomeworkDate = convertView.findViewById(R.id.homeworkDateHome);
         TextView textViewHomeworkTime = convertView.findViewById(R.id.homeworkTimeHome);
+        Button buttonDeleteHomework = convertView.findViewById(R.id.buttonDeleteHomework);
+        Button buttonEditHomework = convertView.findViewById(R.id.buttonEditHomework);
 
         textViewHomeworkName.setText("Nome da atividade: " + homework.getHomeworkName());
         textViewHomeworkDescription.setText("Descrição da atividade: " + homework.getHomeworkDescription());
         textViewHomeworkDate.setText("Data prazo da atividade: " + homework.getHomeworkDate());
         textViewHomeworkTime.setText("Hora prazo da atividade: " + homework.getHomeworkTime());
+
+        buttonEditHomework.setOnClickListener(view -> {
+            Intent it_edit_homework = new Intent(context, EditHomeworkActivity.class);
+            it_edit_homework.putExtra("homeworkId", homework.getHomeworkId());
+            it_edit_homework.putExtra("homeworkName", homework.getHomeworkName());
+            it_edit_homework.putExtra("homeworkDescription", homework.getHomeworkDescription());
+
+            ((Activity) context).startActivityForResult(it_edit_homework, CreateHomeworkActivity.REQUEST_CODE_EDIT_HOMEWORK);
+        });
+
+        buttonDeleteHomework.setOnClickListener(view -> {
+            homeworkDao.deleteHomework(homework);
+            homeworkList.remove(position);
+            notifyDataSetChanged();
+        });
 
         return convertView;
     }
