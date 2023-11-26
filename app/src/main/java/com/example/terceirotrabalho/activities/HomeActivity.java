@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     AppDatabase database;
     static boolean isActivityRunning = false;
     Spinner menuSpinner;
-    String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE","SAIR"};
+    String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE", "SAIR"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

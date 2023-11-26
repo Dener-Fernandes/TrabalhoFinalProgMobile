@@ -34,18 +34,19 @@ import java.util.List;
 
 
 public class CreateHomeworkActivity extends AppCompatActivity {
-    EditText homeworkNameField, homeworkDescriptionField;
+    EditText homeworkNameField, homeworkDescriptionField, userEmailField;
     AppDatabase database;
     static boolean isActivityRunning = false;
-    Spinner menuSpinner, usersSpinner;
+    Spinner menuSpinner;
     String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE", "SAIR"};
-    int year, month, day, hour, minute;
-    String homeworkName, homeworkDescription;
+    int year, month, day, hour, minute, loggedUserId;
+    String homeworkName, homeworkDescription, userType;
     HomeworkAdapter homeworkAdapter;
     List<Homework> homeworks;
     ListView list;
     TextView textViewErrorFields, textViewErrorSpinner;
-
+    User user;
+    public static int isTheSameUser;
     public static final int REQUEST_CODE_EDIT_HOMEWORK = 1;
     public static final int RESULT_SUCCESS_EDIT_HOMEWORK = 1;
 
@@ -57,20 +58,17 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         isActivityRunning = true;
         database = AppDatabase.getAppDatabase(getApplicationContext());
 
+        setUserOwnEmail();
+
         // ListView homeworks
         SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        int studentId = preferences.getInt("userId", 0);
+        loggedUserId = preferences.getInt("userId", 0);
 
         list = findViewById(R.id.homeworksListView);
-        homeworks = database.homeworkDao().getHomeworksForStudent(studentId);
+        homeworks = database.homeworkDao().getHomeworksForStudent(loggedUserId);
         homeworkAdapter = new HomeworkAdapter(this, homeworks);
         list.setAdapter(homeworkAdapter);
         // ListView homeworks
-
-        // userSpinner
-        usersSpinner = findViewById(R.id.usersSpinnerEditHomework);
-        populateSpinner();
-        // userSpinner
 
         // menuSpinner -----------------------------------------------------
         menuSpinner = findViewById(R.id.menuSpinnerCreateHomework);
@@ -113,7 +111,8 @@ public class CreateHomeworkActivity extends AppCompatActivity {
 
         homeworkNameField = findViewById(R.id.homeworkNameEditValue);
         homeworkDescriptionField = findViewById(R.id.homeworkDescriptionEditValue);
-        User selectedUser = (User) usersSpinner.getSelectedItem();
+        String userEmail = userEmailField.getText().toString();
+        user = database.userDao().getUserByEmail(userEmail);
 
         homeworkName = homeworkNameField.getText().toString();
         homeworkDescription = homeworkDescriptionField.getText().toString();
@@ -136,7 +135,7 @@ public class CreateHomeworkActivity extends AppCompatActivity {
             long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
 
             Homework homework = new Homework(homeworkName, homeworkDescription, homeworkDateInSeconds,
-                    homeworkTimeInSeconds, selectedUser.getUserId(), authorId);
+                    homeworkTimeInSeconds, user.getUserId(), authorId);
 
             long result = database.homeworkDao().insertHomework(homework);
 
@@ -145,8 +144,10 @@ public class CreateHomeworkActivity extends AppCompatActivity {
 
                 alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
 
-                homework.setId(result);
-                homeworkAdapter.addHomework(homework);
+              if (loggedUserId == user.getUserId()) {
+                  homework.setId(result);
+                  homeworkAdapter.addHomework(homework);
+              }
                 homeworkNameField.setText("");
                 homeworkDescriptionField.setText("");
 //                textViewErrorFields.setVisibility(View.GONE);
@@ -167,22 +168,18 @@ public class CreateHomeworkActivity extends AppCompatActivity {
 
     public void showTimePickerDialog(View v) {
         DialogFragment timeFragment = new TimeFragment();
+        Bundle args = new Bundle();
+        args.putString("classOrigin", "CreateHomeworkActivity");
+        timeFragment.setArguments(args);
         timeFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     public void showDatePickerDialog(View v) {
         DialogFragment dateFragment = new DateFragment();
+        Bundle args = new Bundle();
+        args.putString("classOrigin", "CreateHomeworkActivity");
+        dateFragment.setArguments(args);
         dateFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    public void populateSpinner() {
-        List<User> users = database.userDao().getAllUsers();
-
-        if (!users.isEmpty()) {
-            ArrayAdapter<User> usersAdapter = new ArrayAdapter<>(this, R.layout.spinner_users, users);
-            usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            usersSpinner.setAdapter(usersAdapter);
-        }
     }
 
     @Override
@@ -190,12 +187,28 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        int studentId = preferences.getInt("userId", 0);
+        int loggedUser = preferences.getInt("userId", 0);
 
         if (requestCode == REQUEST_CODE_EDIT_HOMEWORK && resultCode == RESULT_SUCCESS_EDIT_HOMEWORK) {
-            homeworks = database.homeworkDao().getHomeworksForStudent(studentId);
-            homeworkAdapter.atualizarDados(homeworks);
+          if (loggedUser == isTheSameUser) {
+              homeworks = database.homeworkDao().getHomeworksForStudent(loggedUser);
+              homeworkAdapter.atualizarDados(homeworks);
+          }
         }
 
+    }
+
+    public void setUserOwnEmail() {
+        SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        userType = preferences.getString("userType", "");
+        int userId = preferences.getInt("userId", 0);
+
+        User user = database.userDao().getUserById(userId);
+
+        userEmailField = findViewById(R.id.userEmailCreateHomeworkValue);
+
+        if (userType.equals("ALUNO")) {
+            userEmailField.setText(user.getUserEmail());
+        }
     }
 }

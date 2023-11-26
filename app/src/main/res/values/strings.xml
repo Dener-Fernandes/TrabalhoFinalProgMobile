@@ -30,5 +30,9 @@
     <string name="ConcluirAtividadeButton">CONCLUIR</string>
     <!--> CreateHomework -->
 
+    <!--> SendRequest -->
+    <string name="DigitarEmailUser">Digite o e-mail do usuário</string>
+    <string name="DescricaoInicial">Envie uma solicitação para um usuário</string>
+    <string name="EnviarButton">ENVIAR</string>
 
 </resources>
