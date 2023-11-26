@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
@@ -99,39 +100,43 @@ public class EditHomeworkActivity extends AppCompatActivity {
         newHomeworkName = homeworkNameEditField.getText().toString();
         newHomeworkDescription = homeworkDescriptionEditField.getText().toString();
         String userEmail = userEmailEditHomeworkField.getText().toString();
-        User user = database.userDao().getUserByEmail(userEmail);
+        try {
+            User user = database.userDao().getUserByEmail(userEmail);
 
-        if (newHomeworkName.isEmpty() || newHomeworkDescription.isEmpty()) {
-            isHomeworkAbleToSave = false;
-            textViewErrorFields = findViewById(R.id.textViewErrorFields);
-            textViewErrorFields.setVisibility(View.VISIBLE);
-        }
+            if (newHomeworkName.isEmpty() || newHomeworkDescription.isEmpty()) {
+                isHomeworkAbleToSave = false;
+                textViewErrorFields = findViewById(R.id.textViewErrorFields);
+                textViewErrorFields.setVisibility(View.VISIBLE);
+            }
 
-        if (isHomeworkAbleToSave) {
-            SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-            int authorId = preferences.getInt("userId", 0);
+            if (isHomeworkAbleToSave) {
+                SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+                int authorId = preferences.getInt("userId", 0);
 
-            LocalDate homeworkDate = LocalDate.of(year, month, day);
+                LocalDate homeworkDate = LocalDate.of(year, month, day);
 
-            LocalTime homeworkTime = LocalTime.of(hour, minute, 0);
+                LocalTime homeworkTime = LocalTime.of(hour, minute, 0);
 
-            long homeworkDateInSeconds = homeworkDate.atStartOfDay(ZoneOffset.UTC).toEpochSecond();
-            long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
+                long homeworkDateInSeconds = homeworkDate.atStartOfDay(ZoneOffset.UTC).toEpochSecond();
+                long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
 
-            Homework homework = new Homework(newHomeworkName, newHomeworkDescription, homeworkDateInSeconds,
-                    homeworkTimeInSeconds, user.getUserId(), authorId);
+                Homework homework = new Homework(newHomeworkName, newHomeworkDescription, homeworkDateInSeconds,
+                        homeworkTimeInSeconds, user.getUserId(), authorId);
 
-            homework.setId(homeworkId);
+                homework.setId(homeworkId);
 
-            database.homeworkDao().updateHomework(homework);
+                database.homeworkDao().updateHomework(homework);
 
-            MyAlarm alarm = new MyAlarm();
+                MyAlarm alarm = new MyAlarm();
 
-            alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, newHomeworkName, newHomeworkDescription);
+                alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, newHomeworkName, newHomeworkDescription);
 
-            CreateHomeworkActivity.isTheSameUser = user.getUserId();
-            setResult(CreateHomeworkActivity.RESULT_SUCCESS_EDIT_HOMEWORK);
-            finish();
+                CreateHomeworkActivity.isTheSameUser = user.getUserId();
+                setResult(CreateHomeworkActivity.RESULT_SUCCESS_EDIT_HOMEWORK);
+                finish();
+            }
+        } catch (Exception error) {
+            Toast.makeText(this, "Erro ao editar atividade. Tente mais tarde", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -167,12 +172,16 @@ public class EditHomeworkActivity extends AppCompatActivity {
         userType = preferences.getString("userType", "");
         int userId = preferences.getInt("userId", 0);
 
-        User user = database.userDao().getUserById(userId);
+        try {
+            User user = database.userDao().getUserById(userId);
 
-        userEmailEditHomeworkField = findViewById(R.id.emailUserEditHomeworkValue);
+            userEmailEditHomeworkField = findViewById(R.id.emailUserEditHomeworkValue);
 
-        if (userType.equals("ALUNO")) {
-            userEmailEditHomeworkField.setText(user.getUserEmail());
+            if (userType.equals("ALUNO")) {
+                userEmailEditHomeworkField.setText(user.getUserEmail());
+            }
+        } catch (Exception error) {
+            Toast.makeText(this, "Erro ao carregar tela. Tente mais tarde", Toast.LENGTH_SHORT).show();
         }
     }
 
