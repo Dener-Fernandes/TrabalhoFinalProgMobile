@@ -73,6 +73,14 @@ public class Homework {
         return homeworkTime;
     }
 
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
     public String formatDateAndTime() {
         // Convertendo os timestamps para milissegundos
         long dateMillis = getHomeworkDate() * 1000;
