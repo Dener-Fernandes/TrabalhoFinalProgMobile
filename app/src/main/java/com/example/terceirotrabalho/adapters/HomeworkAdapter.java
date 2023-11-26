@@ -84,9 +84,9 @@ public class HomeworkAdapter extends ArrayAdapter<Homework> {
 
         buttonFinishedHomework.setOnClickListener(view -> {
             homeworkDao.updateHomeworkFinishedStatus(homework.homeworkId, true);
-            atualizarDados(homeworkList);
+            homework.setFinished(true);
+            notifyDataSetChanged();
         });
-
 
         return convertView;
     }
