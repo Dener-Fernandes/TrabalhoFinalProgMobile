@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
@@ -113,52 +112,51 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         homeworkNameField = findViewById(R.id.homeworkNameEditValue);
         homeworkDescriptionField = findViewById(R.id.homeworkDescriptionEditValue);
         String userEmail = userEmailField.getText().toString();
+        user = database.userDao().getUserByEmail(userEmail);
 
-        try {
-            user = database.userDao().getUserByEmail(userEmail);
+        homeworkName = homeworkNameField.getText().toString();
+        homeworkDescription = homeworkDescriptionField.getText().toString();
 
-            homeworkName = homeworkNameField.getText().toString();
-            homeworkDescription = homeworkDescriptionField.getText().toString();
-
-            if (homeworkName.isEmpty() || homeworkDescription.isEmpty()) {
-                isHomeworkAbleToSave = false;
-                textViewErrorFields = findViewById(R.id.textViewErrorFields);
-                textViewErrorFields.setVisibility(View.VISIBLE);
-            }
-
-            if (isHomeworkAbleToSave) {
-                SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-                int authorId = preferences.getInt("userId", 0);
-
-                LocalDate homeworkDate = LocalDate.of(year, month, day);
-
-                LocalTime homeworkTime = LocalTime.of(hour, minute, 0);
-
-                long homeworkDateInSeconds = homeworkDate.atStartOfDay(ZoneOffset.UTC).toEpochSecond();
-                long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
-
-                Homework homework = new Homework(homeworkName, homeworkDescription, homeworkDateInSeconds,
-                        homeworkTimeInSeconds, user.getUserId(), authorId);
-
-                long result = database.homeworkDao().insertHomework(homework);
-
-                if (result > 0) {
-                    MyAlarm alarm = new MyAlarm();
-
-                    alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
-
-                    if (loggedUserId == user.getUserId()) {
-                        homework.setId(result);
-                        homeworkAdapter.addHomework(homework);
-                    }
-                    homeworkNameField.setText("");
-                    homeworkDescriptionField.setText("");
-//                textViewErrorFields.setVisibility(View.GONE);
-                }
-            }
-        } catch (Exception error) {
-            Toast.makeText(this, "Erro ao cadastrar atividade. Tente mais tarde", Toast.LENGTH_SHORT).show();
+        if (homeworkName.isEmpty() || homeworkDescription.isEmpty()) {
+            isHomeworkAbleToSave = false;
+            textViewErrorFields = findViewById(R.id.textViewErrorFields);
+            textViewErrorFields.setVisibility(View.VISIBLE);
         }
+
+        if (isHomeworkAbleToSave) {
+            SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+            int authorId = preferences.getInt("userId", 0);
+
+            LocalDate homeworkDate = LocalDate.of(year, month, day);
+
+            LocalTime homeworkTime = LocalTime.of(hour, minute, 0);
+
+            long homeworkDateInSeconds = homeworkDate.atStartOfDay(ZoneOffset.UTC).toEpochSecond();
+            long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
+
+            Homework homework = new Homework(homeworkName, homeworkDescription, homeworkDateInSeconds,
+                    homeworkTimeInSeconds, user.getUserId(), authorId, false);
+
+            long result = database.homeworkDao().insertHomework(homework);
+
+            if (result > 0) {
+                MyAlarm alarm = new MyAlarm();
+
+                alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, homeworkName, homeworkDescription);
+
+              if (loggedUserId == user.getUserId()) {
+                  homework.setId(result);
+                  homeworkAdapter.addHomework(homework);
+              }
+                homeworkNameField.setText("");
+                homeworkDescriptionField.setText("");
+//                textViewErrorFields.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    public void backToHome(View v) {
+        finish();
     }
 
     public void setDate(int yearValue, int monthValue, int dayValue) {
@@ -209,16 +207,12 @@ public class CreateHomeworkActivity extends AppCompatActivity {
         userType = preferences.getString("userType", "");
         int userId = preferences.getInt("userId", 0);
 
-        try {
-            User user = database.userDao().getUserById(userId);
+        User user = database.userDao().getUserById(userId);
 
-            userEmailField = findViewById(R.id.userEmailCreateHomeworkValue);
+        userEmailField = findViewById(R.id.userEmailCreateHomeworkValue);
 
-            if (userType.equals("ALUNO")) {
-                userEmailField.setText(user.getUserEmail());
-            }
-        } catch (Exception error) {
-            Toast.makeText(this, "Erro ao carregar tela. Tente mais tarde", Toast.LENGTH_SHORT).show();
+        if (userType.equals("ALUNO")) {
+            userEmailField.setText(user.getUserEmail());
         }
     }
 }
