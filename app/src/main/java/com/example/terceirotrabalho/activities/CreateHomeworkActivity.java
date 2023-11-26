@@ -149,7 +149,7 @@ public class CreateHomeworkActivity extends AppCompatActivity {
                 homeworkAdapter.addHomework(homework);
                 homeworkNameField.setText("");
                 homeworkDescriptionField.setText("");
-                textViewErrorFields.setVisibility(View.GONE);
+//                textViewErrorFields.setVisibility(View.GONE);
             }
         }
     }
