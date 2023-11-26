@@ -1,8 +1,10 @@
 package com.example.terceirotrabalho.DAO;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.terceirotrabalho.model.Homework;
 
@@ -12,20 +14,23 @@ import java.util.List;
 public interface HomeworkDao {
 
     @Insert
-    long insertHomework(Homework homework);
+    public long insertHomework(Homework homework);
+
+    @Update
+    public void updateHomework(Homework homework);
 
     @Query("SELECT * FROM homework WHERE homework_id = :homeworkId")
-    Homework getHomeworkById(int homeworkId);
+    public Homework getHomeworkById(int homeworkId);
 
     @Query("SELECT * FROM homework WHERE fk_student_id = :studentId")
-    List<Homework> getHomeworksForStudent(int studentId);
+    public List<Homework> getHomeworksForStudent(int studentId);
 
     @Query("SELECT * FROM homework WHERE fk_author_id = :authorId")
-    List<Homework> getHomeworksByAuthor(int authorId);
+    public List<Homework> getHomeworksByAuthor(int authorId);
 
-    @Query("DELETE FROM homework WHERE homework_id = :homeworkId")
-    void deleteHomeworkById(int homeworkId);
+    @Delete
+    public void deleteHomework(Homework homework);
 
     @Query("DELETE FROM homework")
-    void deleteAllHomeworks();
+    public void deleteAllHomeworks();
 }

@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/createHomework"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CreateHomeworkActivity">
+    tools:context=".activities.EditHomeworkActivity">
+
 
     <Spinner
-        android:id="@+id/menuSpinnerCreateHomework"
+        android:id="@+id/menuSpinnerEditHomework"
         android:layout_width="409dp"
         android:layout_height="32dp"
         tools:layout_editor_absoluteX="1dp"
@@ -19,21 +19,21 @@
         android:id="@+id/homeworkNameEditValue"
         android:layout_width="338dp"
         android:layout_height="44dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="152dp"
         android:hint="@string/NomeAtividade"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.465"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuSpinnerCreateHomework" />
+        app:layout_constraintTop_toBottomOf="@+id/menuSpinnerEditHomework" />
 
     <EditText
         android:id="@+id/homeworkDescriptionEditValue"
         android:layout_width="338dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:hint="@string/DescricaoAtividade"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.447"
+        app:layout_constraintHorizontal_bias="0.465"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeworkNameEditValue" />
 
@@ -41,70 +41,69 @@
         android:id="@+id/buttonSetTime"
         android:layout_width="170dp"
         android:layout_height="47dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="24dp"
-        android:onClick="showTimePickerDialog"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:onClick="showTimePickerDialogEdit"
         android:text="DEFINIR HORÁRIO"
         app:layout_constraintEnd_toStartOf="@+id/buttonSetdate"
-        app:layout_constraintHorizontal_bias="0.761"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/usersSpinnerEditHomework" />
 
     <Button
         android:id="@+id/buttonSetdate"
         android:layout_width="170dp"
         android:layout_height="0dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
-        android:onClick="showDatePickerDialog"
+        android:onClick="showDatePickerDialogEdit"
         android:text="DEFINIR DATA"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/usersSpinnerEditHomework" />
 
     <Spinner
         android:id="@+id/usersSpinnerEditHomework"
         android:layout_width="170dp"
         android:layout_height="40dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:entries="@array/tipos_array"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionEditValue" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="314dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="326dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
         android:text="@string/CriarAtividade"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuSpinnerCreateHomework" />
+        app:layout_constraintTop_toBottomOf="@+id/menuSpinnerEditHomework" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="312dp"
         android:layout_height="21dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="40dp"
         android:text="@string/UsuarioAtividade"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.383"
+        app:layout_constraintHorizontal_bias="0.343"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionEditValue" />
 
     <Button
-        android:id="@+id/buttonBack"
+        android:id="@+id/button"
         android:layout_width="168dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/Voltar"
-        android:onClick="backToHome"
         app:layout_constraintEnd_toStartOf="@+id/button1"
-        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintHorizontal_bias="0.962"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSetTime" />
 
@@ -113,48 +112,36 @@
         android:layout_width="168dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"
-        android:onClick="registerHomework"
-        android:text="@string/CriarAtividadeButton"
+        android:layout_marginEnd="24dp"
+        android:onClick="editHomework"
+        android:text="@string/EditarAtividadeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSetdate" />
-
-    <ListView
-        android:id="@+id/homeworksListView"
-        android:layout_width="408dp"
-        android:layout_height="275dp"
-        android:layout_marginTop="172dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        app:layout_constraintVertical_bias="1.0"
-        android:scrollbars="vertical"/>
 
     <TextView
         android:id="@+id/textViewErrorSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="48dp"
         android:text="@string/PreenchaTodosOsCampos"
         android:textColor="@color/red"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintHorizontal_bias="0.158"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        android:visibility="gone" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/textViewErrorFields"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:text="@string/RelacionarUsuario"
         android:textColor="@color/red"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintHorizontal_bias="0.195"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionEditValue"
-        android:visibility="gone" />
+        app:layout_constraintTop_toBottomOf="@+id/homeworkDescriptionEditValue" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
