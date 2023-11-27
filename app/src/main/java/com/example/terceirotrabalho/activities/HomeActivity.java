@@ -109,7 +109,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         if(homeworksFinished.size() > 0) {
-            textViewHomeworksFinished.setText("Total de: " + homeworksFinished.size() + " atividades concluídas.");
+            textViewHomeworksFinished.setText("Total de " + homeworksFinished.size() + " atividades concluídas.");
         } else {
             textViewHomeworksFinished.setText("Não existem atividades concluídas.");
         }
