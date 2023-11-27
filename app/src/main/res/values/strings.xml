@@ -38,5 +38,6 @@
     <!-- Home -->
     <string name="AtividadesDisponiveis">Atividades Disponíveis</string>
     <string name="AtividadesConcluidas">Atividades Concluídas</string>
+    <string name="PerfilUsuario">Informações Usuário</string>
 
 </resources>
