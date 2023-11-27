@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "teacher", foreignKeys = {
         @ForeignKey(entity = User.class,
                 parentColumns = "user_id",
-                childColumns = "fk_user_id",
+                childColumns = "fk_user_teacher_id",
                 onDelete = CASCADE)
 })
 public class Teacher {
@@ -18,11 +18,11 @@ public class Teacher {
     @ColumnInfo(name = "teacher_id")
     public int teacherId;
 
-    @ColumnInfo(name = "fk_user_id")
-    public int fkUserId;
+    @ColumnInfo(name = "fk_user_teacher_id")
+    public int fkUserTeacherId;
 
-    public Teacher(int fkUserId) {
-        this.fkUserId = fkUserId;
+    public Teacher(int fkUserTeacherId) {
+        this.fkUserTeacherId = fkUserTeacherId;
     }
 
     public int getTeacherId() {
@@ -30,6 +30,6 @@ public class Teacher {
     }
 
     public int getFkUserId() {
-        return fkUserId;
+        return fkUserTeacherId;
     }
 }

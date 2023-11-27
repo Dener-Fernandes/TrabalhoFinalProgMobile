@@ -34,44 +34,10 @@ public class MyReceiver extends BroadcastReceiver {
         // Verifique se a ação recebida é a que você espera
         if ("ATIVIDADE_A_SER_REALIZADA".equals(intent.getAction())) {
 
-            // Agora, vamos adicionar a lógica para tocar o alarme por 20 segundos
-//            playAlarme(context);
-
             homeworkName = intent.getStringExtra("homeworkName");
             homeworkDescription = intent.getStringExtra("homeworkDescription");
 
-            Log.d("Nome", "Resultado: " + homeworkName);
-
             setNotification(context, homeworkName, homeworkDescription);
-            // Agendar o Handler para parar o alarme após 20 segundos
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Lógica para parar o alarme após 20 segundos
-                    stopAlarme(context);
-                }
-            }, 20 * 1000); // 20 segundos
-        }
-    }
-
-    private void playAlarme(Context context) {
-        // Lógica para iniciar o alarme, por exemplo, tocar um som ou exibir uma notificação
-
-        // Certifique-se de que o Ringtone não foi inicializado anteriormente
-        if (ringtone == null) {
-            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            ringtone = RingtoneManager.getRingtone(context, alarmSound);
-//            setNotification(context);
-            ringtone.play();
-        }
-    }
-
-    private void stopAlarme(Context context) {
-        // Lógica para parar o alarme, por exemplo, parar o som ou cancelar a notificação
-
-        // Se o Ringtone está tocando, pare a reprodução
-        if (ringtone != null && ringtone.isPlaying()) {
-            ringtone.stop();
         }
     }
 

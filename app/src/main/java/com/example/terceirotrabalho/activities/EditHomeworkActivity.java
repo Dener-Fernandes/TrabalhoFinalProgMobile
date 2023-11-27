@@ -33,10 +33,10 @@ public class EditHomeworkActivity extends AppCompatActivity {
     AppDatabase database;
     Spinner menuSpinner, usersSpinner;
     String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE","SAIR"};
-    int homeworkId, year, month, day, hour, minute;
-    String homeworkName, homeworkDescription;
+    int homeworkId, year, month, day, hour, minute, loggedUserId;
+    String homeworkName, homeworkDescription, userType, userEmail;
     TextView textViewErrorFields, textViewErrorSpinner;
-    EditText homeworkNameEditField, homeworkDescriptionEditField;
+    EditText homeworkNameEditField, homeworkDescriptionEditField, userEmailEditHomeworkField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,8 @@ public class EditHomeworkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_homework);
 
         database = AppDatabase.getAppDatabase(getApplicationContext());
+
+        setUserOwnEmail();
 
         homeworkId = getIntent().getIntExtra("homeworkId", -1);
         homeworkName = getIntent().getStringExtra("homeworkName");
@@ -55,10 +57,6 @@ public class EditHomeworkActivity extends AppCompatActivity {
         homeworkNameEditField.setText(homeworkName);
         homeworkDescriptionEditField.setText(homeworkDescription);
 
-        // userSpinner
-        usersSpinner = findViewById(R.id.usersSpinnerEditHomework);
-        populateSpinner();
-        // userSpinner
 
         // menuSpinner -----------------------------------------------------
         menuSpinner = findViewById(R.id.menuSpinnerEditHomework);
@@ -100,7 +98,8 @@ public class EditHomeworkActivity extends AppCompatActivity {
 
         newHomeworkName = homeworkNameEditField.getText().toString();
         newHomeworkDescription = homeworkDescriptionEditField.getText().toString();
-        User selectedUser = (User) usersSpinner.getSelectedItem();
+        String userEmail = userEmailEditHomeworkField.getText().toString();
+        User user = database.userDao().getUserByEmail(userEmail);
 
         if (newHomeworkName.isEmpty() || newHomeworkDescription.isEmpty()) {
             isHomeworkAbleToSave = false;
@@ -120,7 +119,7 @@ public class EditHomeworkActivity extends AppCompatActivity {
             long homeworkTimeInSeconds = homeworkTime.toSecondOfDay();
 
             Homework homework = new Homework(newHomeworkName, newHomeworkDescription, homeworkDateInSeconds,
-                    homeworkTimeInSeconds, selectedUser.getUserId(), authorId);
+                    homeworkTimeInSeconds, user.getUserId(), authorId, false);
 
             homework.setId(homeworkId);
 
@@ -130,9 +129,14 @@ public class EditHomeworkActivity extends AppCompatActivity {
 
             alarm.setAlarm(getApplicationContext(), year, month, day, hour, minute, newHomeworkName, newHomeworkDescription);
 
+            CreateHomeworkActivity.isTheSameUser = user.getUserId();
             setResult(CreateHomeworkActivity.RESULT_SUCCESS_EDIT_HOMEWORK);
             finish();
         }
+    }
+
+    public void backToHome(View v) {
+        finish();
     }
 
     public void setDate(int yearValue, int monthValue, int dayValue) {
@@ -162,13 +166,18 @@ public class EditHomeworkActivity extends AppCompatActivity {
         dateFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void populateSpinner() {
-        List<User> users = database.userDao().getAllUsers();
+    public void setUserOwnEmail() {
+        SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        userType = preferences.getString("userType", "");
+        int userId = preferences.getInt("userId", 0);
 
-        if (!users.isEmpty()) {
-            ArrayAdapter<User> usersAdapter = new ArrayAdapter<>(this, R.layout.spinner_users, users);
-            usersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            usersSpinner.setAdapter(usersAdapter);
+        User user = database.userDao().getUserById(userId);
+
+        userEmailEditHomeworkField = findViewById(R.id.emailUserEditHomeworkValue);
+
+        if (userType.equals("ALUNO")) {
+            userEmailEditHomeworkField.setText(user.getUserEmail());
         }
     }
+
 }

@@ -26,5 +26,8 @@ public interface StudentDao {
 
     @Query("SELECT * FROM student")
     public List<Student> getAllStudents();
+
+    @Query("SELECT student.student_id FROM student INNER JOIN user ON student.fk_user_student_id = user.user_id WHERE user.user_email = :userEmail")
+    public int getStudentIdByEmail(String userEmail);
 }
 

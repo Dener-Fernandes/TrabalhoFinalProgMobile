@@ -6,18 +6,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.terceirotrabalho.MainActivity;
 import com.example.terceirotrabalho.R;
-import com.example.terceirotrabalho.adapters.HomeworkAdapter;
 import com.example.terceirotrabalho.database.AppDatabase;
 import com.example.terceirotrabalho.model.Homework;
+import com.example.terceirotrabalho.model.Teacher;
+import com.example.terceirotrabalho.model.User;
 
 import java.util.List;
 
@@ -25,8 +27,9 @@ public class HomeActivity extends AppCompatActivity {
     AppDatabase database;
     static boolean isActivityRunning = false;
     Spinner menuSpinner;
-    String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE","SAIR"};
-
+    String[] menuOptions = {"MENU", "HOME", "CRIAR ATIVIDADE", "SAIR"};
+    private List<Homework> homeworks, homeworksFinished;
+    String userType, userEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +70,67 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-            }
+            };
+            //Spinner menu
         });
-        //Spinner menu
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        getHomeworks();
+        getUserInformation();
         menuSpinner.setSelection(0);
+    }
+
+    private void getHomeworks() {
+        SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        userType = preferences.getString("userType", "");
+        int userId = preferences.getInt("userId", 0);
+
+        User user = database.userDao().getUserById(userId);
+        TextView textViewHomeworksAvailable = findViewById(R.id.homeworksAvailable);
+        TextView textViewHomeworksFinished = findViewById(R.id.homeworksFinished);
+        Button buttonCreateHomework = findViewById(R.id.buttonCreateHomework);
+
+        if(userType.equals("ALUNO")) {
+            homeworks = database.homeworkDao().getHomeworksForStudentAndFinished(userId, false);
+            homeworksFinished = database.homeworkDao().getHomeworksForStudentAndFinished(userId, true);
+        } else {
+            homeworks = database.homeworkDao().getHomeworkByAuthorAndFinished(userId, false);
+            homeworksFinished = database.homeworkDao().getHomeworkByAuthorAndFinished(userId, true);
+        }
+
+        if(homeworks.size() > 0) {
+            textViewHomeworksAvailable.setText("Total de " + homeworks.size() + " atividades disponíveis.");
+        } else {
+            textViewHomeworksAvailable.setText("Não existem atividades diponíveis.");
+            buttonCreateHomework.setVisibility(View.VISIBLE);
+        }
+
+        if(homeworksFinished.size() > 0) {
+            textViewHomeworksFinished.setText("Total de " + homeworksFinished.size() + " atividades concluídas.");
+        } else {
+            textViewHomeworksFinished.setText("Não existem atividades concluídas.");
+        }
+    }
+
+    public void getUserInformation() {
+        SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        userType = preferences.getString("userType", "");
+        int userId = preferences.getInt("userId", 0);
+
+        User user = database.userDao().getUserById(userId);
+
+        TextView textViewNameUser = findViewById(R.id.nomeUserLogged);
+        TextView textViewEmailUser = findViewById(R.id.emailUserLogged);
+
+        textViewNameUser.setText(user.getUserName());
+        textViewEmailUser.setText(user.getUserEmail());
+    }
+
+    public void openCreateHomework(View v) {
+        Intent it_create_homework = new Intent(HomeActivity.this, CreateHomeworkActivity.class);
+        startActivity(it_create_homework);
     }
 }

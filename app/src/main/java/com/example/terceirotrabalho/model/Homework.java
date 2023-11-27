@@ -6,6 +6,10 @@ import androidx.room.PrimaryKey;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 @Entity(tableName = "homework")
 public class Homework {
@@ -31,14 +35,18 @@ public class Homework {
     @ColumnInfo(name = "fk_author_id")
     public int fkAuthorId;
 
+    @ColumnInfo(name = "finished")
+    public boolean finished;
+
     public Homework(String homeworkName, String homeworkDescription, Long homeworkDate,
-                    Long homeworkTime, int fkStudentId, int fkAuthorId) {
+                    Long homeworkTime, int fkStudentId, int fkAuthorId, boolean finished) {
         this.homeworkName = homeworkName;
         this.homeworkDescription = homeworkDescription;
         this.homeworkDate = homeworkDate;
         this.homeworkTime = homeworkTime;
         this.fkStudentId = fkStudentId;
         this.fkAuthorId = fkAuthorId;
+        this.finished = finished;
     }
 
     public void setId(long result) {
@@ -63,6 +71,37 @@ public class Homework {
 
     public long getHomeworkTime() {
         return homeworkTime;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public String formatDateAndTime() {
+        // Convertendo os timestamps para milissegundos
+        long dateMillis = getHomeworkDate() * 1000;
+        long timeMillis = getHomeworkTime() * 1000;
+
+        // Criando um objeto Calendar
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(dateMillis);
+
+        // Definindo a hora e os minutos
+        calendar.set(Calendar.HOUR_OF_DAY, (int) (timeMillis / (60 * 60 * 1000)));
+        calendar.set(Calendar.MINUTE, (int) ((timeMillis / (60 * 1000)) % 60));
+        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        // Criando um formato de data e hora com o fuso horário de São Paulo
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
+
+        // Formatando a data e hora
+        return sdf.format(calendar.getTime());
     }
 
 }

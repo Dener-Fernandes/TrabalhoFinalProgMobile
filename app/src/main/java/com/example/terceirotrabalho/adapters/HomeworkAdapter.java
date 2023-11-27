@@ -57,13 +57,15 @@ public class HomeworkAdapter extends ArrayAdapter<Homework> {
         TextView textViewHomeworkDescription = convertView.findViewById(R.id.homeworkDescriptionHome);
         TextView textViewHomeworkDate = convertView.findViewById(R.id.homeworkDateHome);
         TextView textViewHomeworkTime = convertView.findViewById(R.id.homeworkTimeHome);
+        TextView textViewHomeworkDone = convertView.findViewById(R.id.homeworkDone);
         Button buttonDeleteHomework = convertView.findViewById(R.id.buttonDeleteHomework);
         Button buttonEditHomework = convertView.findViewById(R.id.buttonEditHomework);
+        Button buttonFinishedHomework = convertView.findViewById(R.id.buttonMarkHomeworkAsDone);
 
         textViewHomeworkName.setText("Nome da atividade: " + homework.getHomeworkName());
         textViewHomeworkDescription.setText("Descrição da atividade: " + homework.getHomeworkDescription());
-        textViewHomeworkDate.setText("Data prazo da atividade: " + homework.getHomeworkDate());
-        textViewHomeworkTime.setText("Hora prazo da atividade: " + homework.getHomeworkTime());
+        textViewHomeworkDate.setText("Data e hora prazo da atividade: " + homework.formatDateAndTime());
+        textViewHomeworkDone.setText("Atividade concluída: " + (homework.finished == true ? "✅" : "❌"));
 
         buttonEditHomework.setOnClickListener(view -> {
             Intent it_edit_homework = new Intent(context, EditHomeworkActivity.class);
@@ -77,6 +79,12 @@ public class HomeworkAdapter extends ArrayAdapter<Homework> {
         buttonDeleteHomework.setOnClickListener(view -> {
             homeworkDao.deleteHomework(homework);
             homeworkList.remove(position);
+            notifyDataSetChanged();
+        });
+
+        buttonFinishedHomework.setOnClickListener(view -> {
+            homeworkDao.updateHomeworkFinishedStatus(homework.homeworkId, true);
+            homework.setFinished(true);
             notifyDataSetChanged();
         });
 

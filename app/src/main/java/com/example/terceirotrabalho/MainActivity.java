@@ -10,12 +10,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+
 import android.widget.Toast;
 
 import com.example.terceirotrabalho.activities.HomeActivity;
-import com.example.terceirotrabalho.cryptography.CryptographyUtils;
 import com.example.terceirotrabalho.database.AppDatabase;
 import com.example.terceirotrabalho.fragments.LoginFragment;
 import com.example.terceirotrabalho.fragments.SignupFragment;
@@ -67,87 +65,88 @@ public class MainActivity extends AppCompatActivity {
 
         database = AppDatabase.getAppDatabase(getApplicationContext());
 
-//        String userEncryptedPassword = CryptographyUtils.encryptPassword(userPassword);
-
-//        Log.d("Cadastro", userEncryptedPassword);
-
         User user = new User(userName, userEmail, userPassword, userType);
 
-        result = database.userDao().insertUser(user);
+        try {
+            result = database.userDao().insertUser(user);
 
-        int userId = (int) result;
+            int userId = (int) result;
 
-        if (result >= 0) {
-            if (userType == "ALUNO") {
-                Student student = new Student(userId);
+            if (result >= 0) {
+                if (userType == "ALUNO") {
+                    Student student = new Student(userId);
 
-                finalResult = database.studentDao().insertStudent(student);
+                    finalResult = database.studentDao().insertStudent(student);
+                }
+                if (userType == "PROFESSOR") {
+                    Teacher teacher = new Teacher(userId);
+                    finalResult = database.teacherDao().insertTeacher(teacher);
+                }
+                if (userType == "PAI/MÃE") {
+                    Parent parent = new Parent(userId);
+                    finalResult = database.parentDao().insertParent(parent);
+                }
+                if (userType == "TUTOR") {
+                    Tutor tutor = new Tutor(userId);
+                    finalResult = database.tutorDao().insertTutor(tutor);
+                }
             }
-            if (userType == "PROFESSOR") {
-                Teacher teacher = new Teacher(userId);
-                finalResult = database.teacherDao().insertTeacher(teacher);
-            }
-            if (userType == "PAI/MÃE") {
-                Parent parent = new Parent(userId);
-                finalResult = database.parentDao().insertParent(parent);
-            }
-            if (userType == "TUTOR") {
-                Tutor tutor = new Tutor(userId);
-                finalResult = database.tutorDao().insertTutor(tutor);
-            }
-        }
 
-        if (finalResult >= 0) {
-            Log.d("Cadastro", "SUCESSO");
-            // Obtém uma referência para o SharedPreferences
-            SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-
-            // Obtém um editor para modificar os valores
-            SharedPreferences.Editor editor = preferences.edit();
-
-            // Adiciona as informações de login
-            editor.putInt("userId", userId);
-            editor.putString("userType", userType);
-            editor.putBoolean("isLoggedIn", user.getIsUserLogged());
-
-            // Aplica as alterações
-            editor.apply();
-
-            Intent it_home = new Intent(this, HomeActivity.class);
-            startActivity(it_home);
-        }
-    }
-
-    public void loginUser(String userEmail, String userPassword) {
-        database = AppDatabase.getAppDatabase(getApplicationContext());
-
-        User user = database.userDao().getUserByEmail(userEmail);
-
-//        String userDecryptedPassword = CryptographyUtils.decryptPassword(user.getUserPassword());
-
-        if (user != null) {
-            if (userPassword.equals(user.getUserPassword())) {
+            if (finalResult >= 0) {
+                // Obtém uma referência para o SharedPreferences
                 SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
 
                 // Obtém um editor para modificar os valores
                 SharedPreferences.Editor editor = preferences.edit();
 
-                user.setIsUserLogged(true);
                 // Adiciona as informações de login
-                editor.putInt("userId", user.getUserId());
-                editor.putString("userType", user.getUserType());
-                editor.putBoolean("isLoggedIn", true);
+                editor.putInt("userId", userId);
+                editor.putString("userType", userType);
+                editor.putBoolean("isLoggedIn", user.getIsUserLogged());
 
                 // Aplica as alterações
                 editor.apply();
 
                 Intent it_home = new Intent(this, HomeActivity.class);
                 startActivity(it_home);
-            } else {
-                Toast.makeText(this, "E-mail ou senha incorretos.", Toast.LENGTH_LONG).show();
-                return;
             }
+        } catch (Exception error) {
+            Toast.makeText(this, "Erro ao cadastrar. Tente mais tarde", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void loginUser(String userEmail, String userPassword) {
+        database = AppDatabase.getAppDatabase(getApplicationContext());
+
+       try {
+           User user = database.userDao().getUserByEmail(userEmail);
+
+           if (user != null) {
+               if (userPassword.equals(user.getUserPassword())) {
+                   SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+
+                   // Obtém um editor para modificar os valores
+                   SharedPreferences.Editor editor = preferences.edit();
+
+                   user.setIsUserLogged(true);
+                   // Adiciona as informações de login
+                   editor.putInt("userId", user.getUserId());
+                   editor.putString("userType", user.getUserType());
+                   editor.putBoolean("isLoggedIn", true);
+
+                   // Aplica as alterações
+                   editor.apply();
+
+                   Intent it_home = new Intent(this, HomeActivity.class);
+                   startActivity(it_home);
+               } else {
+                   Toast.makeText(this, "E-mail ou senha incorretos.", Toast.LENGTH_LONG).show();
+                   return;
+               }
+           }
+       } catch (Exception error) {
+           Toast.makeText(this, "Erro ao realizar login. Tente mais tarde", Toast.LENGTH_SHORT).show();
+       }
 
     }
 }
