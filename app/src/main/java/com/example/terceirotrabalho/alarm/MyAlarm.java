@@ -12,14 +12,19 @@ import com.example.terceirotrabalho.receiver.MyReceiver;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class MyAlarm {
-    AlarmManager alarmManager;
-    PendingIntent pendingIntent;
+    static AlarmManager alarmManager;
+    static PendingIntent pendingIntent;
     public void setAlarm(Context context, int year, int month, int day, int hour, int minute, String
                          homeworkName, String homeworkDescription) {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        Random randomNumber = new Random();
+
+        int requestCode = randomNumber.nextInt();
 
         // Crie um Intent para o BroadcastReceiver
         Intent intent = new Intent(context, MyReceiver.class);
@@ -28,7 +33,7 @@ public class MyAlarm {
         intent.setAction("ATIVIDADE_A_SER_REALIZADA");
 
         // Crie um PendingIntent para o BroadcastReceiver
-        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Configure o Calendar com o tempo desejado
         Calendar calendar = Calendar.getInstance();
@@ -41,5 +46,9 @@ public class MyAlarm {
         calendar.set(Calendar.SECOND, 0);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+    public static void cancelAlarm() {
+        alarmManager.cancel(pendingIntent);
     }
 }
