@@ -17,6 +17,7 @@
 
     <!--> CreateHomework -->
     <string name="CriarAtividade">Crie uma atividade</string>
+    <string name="EditarAtividade">Edite uma atividade</string>
     <string name="NomeAtividade">Digite o nome da atividade</string>
     <string name="DescricaoAtividade">Digite a descrição da atividade</string>
     <string name="PrazoAtividade">
