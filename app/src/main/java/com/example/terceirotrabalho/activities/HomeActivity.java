@@ -79,6 +79,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getHomeworks();
+        getUserInformation();
         menuSpinner.setSelection(0);
     }
 
@@ -112,6 +113,20 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             textViewHomeworksFinished.setText("Não existem atividades concluídas.");
         }
+    }
+
+    public void getUserInformation() {
+        SharedPreferences preferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        userType = preferences.getString("userType", "");
+        int userId = preferences.getInt("userId", 0);
+
+        User user = database.userDao().getUserById(userId);
+
+        TextView textViewNameUser = findViewById(R.id.nomeUserLogged);
+        TextView textViewEmailUser = findViewById(R.id.emailUserLogged);
+
+        textViewNameUser.setText(user.getUserName());
+        textViewEmailUser.setText(user.getUserEmail());
     }
 
     public void openCreateHomework(View v) {

@@ -35,4 +35,9 @@
     <string name="DescricaoInicial">Envie uma solicitação para um usuário</string>
     <string name="EnviarButton">ENVIAR</string>
 
+    <!-- Home -->
+    <string name="AtividadesDisponiveis">Atividades Disponíveis</string>
+    <string name="AtividadesConcluidas">Atividades Concluídas</string>
+    <string name="PerfilUsuario">Informações Usuário</string>
+
 </resources>
